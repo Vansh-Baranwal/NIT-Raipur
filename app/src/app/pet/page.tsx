@@ -16,17 +16,26 @@ export default function PetWindow() {
       });
     }
 
-    // Connect to WS for alerts
-    const ws = new WebSocket('ws://localhost:8080');
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'alert.created' && data.payload.tier >= 2) {
+    // Simulate random mock alerts for the Pet (since backend is disabled)
+    const mockInterval = setInterval(() => {
+      // 10% chance every 10 seconds to show an alert
+      if (Math.random() > 0.8 && typeof window !== 'undefined') {
         setState('pointing');
-        setAlertInfo({ title: data.payload.title, reason: data.payload.reason });
+        setAlertInfo({ 
+          title: 'Macro Alert: Rate Hike', 
+          reason: 'Unexpected rate hike discussion spotted in news.' 
+        });
         if (window.petApi) window.petApi.show();
+        
+        // Auto dismiss after 8s
+        setTimeout(() => {
+          setState('idle');
+          setAlertInfo(null);
+        }, 8000);
       }
-    };
-    return () => ws.close();
+    }, 10000);
+
+    return () => clearInterval(mockInterval);
   }, []);
 
   useEffect(() => {

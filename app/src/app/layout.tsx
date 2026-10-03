@@ -1,8 +1,6 @@
-import './globals.css';
+'use client';
 
-export const metadata = {
-  title: 'Utsava Terminal',
-};
+import './globals.css';
 
 export default function RootLayout({
   children,
