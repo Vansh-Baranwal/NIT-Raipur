@@ -149,7 +149,7 @@ function OverviewWorkspace() {
           <Panel defaultSize={40}>
             <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
               <div className="px-4 py-3 border-b border-white/10">
-                <span className="font-semibold text-white">Live Intelligence</span>
+                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Live Intelligence</span>
               </div>
               <div className="flex-1 overflow-auto p-3 space-y-3">
                  <SentimentItem time="13:04" type="NEG" score="-0.82" src="Reuters" text="Unexpected monsoon delay raises FMCG inflation fears." />
@@ -181,7 +181,7 @@ function OverviewWorkspace() {
           <Panel defaultSize={30}>
             <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
               <div className="px-4 py-3 border-b border-white/10">
-                <span className="font-semibold text-white">Macro Variables</span>
+                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Macro Variables</span>
               </div>
               <div className="flex-1 p-3 grid grid-cols-3 gap-3 overflow-auto">
                 <div className="bg-black/20 border border-white/5 p-3 rounded-xl flex flex-col justify-between">
@@ -265,7 +265,7 @@ function CopilotWorkspace() {
       <Panel defaultSize={30}>
         <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
-            <span className="font-semibold text-white">Execution Graph</span>
+            <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Execution Graph</span>
             <span className="text-[10px] text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">EXPERT MODE</span>
           </div>
           <div className="flex-1 relative bg-black/20">
@@ -291,7 +291,7 @@ function CopilotWorkspace() {
         <div className="h-full flex flex-col gap-3">
           <div className="flex-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
             <div className="px-4 py-3 border-b border-white/10 flex justify-between items-center bg-black/20">
-              <div className="font-semibold text-white">Copilot Response</div>
+              <div className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Copilot Response</div>
               <div className="flex gap-2 items-center">
                 <span className="text-xs text-zinc-400">Confidence:</span>
                 <span className="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded-full">88%</span>
@@ -305,7 +305,7 @@ function CopilotWorkspace() {
                 <div className="text-rose-400 text-xs font-bold mb-2 flex items-center gap-1.5"><ShieldCheck size={14}/> RED TEAM COUNTER-ARGUMENT</div>
                 <p className="text-sm text-zinc-300">The historical analog from 2019 suggests that downstream refining margins often expand post-cyclone due to regional supply constraints, potentially offsetting upstream disruptions.</p>
               </div>
-              <h3 className="font-semibold text-sm mb-3 text-white uppercase tracking-wider">Recommended Action</h3>
+              <h3 className="font-bold mb-3 text-white font-display uppercase tracking-widest text-[11px]">Recommended Action</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-black/20 border border-white/10 p-4 rounded-xl shadow-inner">
                   <div className="text-xs text-zinc-400 mb-1">INSTRUMENT</div>
