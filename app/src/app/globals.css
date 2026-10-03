@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    /* other shadcn vars ... */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    /* Bloomberg dark colors */
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* No body scroll */
+  user-select: none; /* No text selection outside content */
+  touch-action: none; /* Disable pinch zoom */
+  -webkit-app-region: no-drag; /* Default no-drag */
+}
+
+/* Custom scrollbars for panels */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Allow selection in specific areas if needed, e.g. text inputs */
+input, textarea, .selectable {
+  user-select: text;
+}
