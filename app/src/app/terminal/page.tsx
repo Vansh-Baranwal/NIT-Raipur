@@ -7,7 +7,7 @@ import { createChart } from 'lightweight-charts';
 import { ReactFlow, Background, Controls, MarkerType } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-
+import BrailleTerrainBackground from '@/components/BrailleTerrainBackground';
 export default function TerminalWindow() {
   const [activeTab, setActiveTab] = useState('Overview');
   const [health, setHealth] = useState('LIVE');
@@ -28,70 +28,73 @@ export default function TerminalWindow() {
   const handleClose = () => window.terminalApi?.close();
 
   return (
-    <div className="flex flex-col h-screen bg-[#0a0a0a] text-zinc-300 font-mono text-[11px] overflow-hidden selection:bg-teal-500/30">
-      {/* Title Bar - Draggable */}
-      <div 
-        className="flex items-center justify-between px-3 h-9 bg-[#111] border-b border-zinc-800"
-        style={{ WebkitAppRegion: 'drag' } as any}
-      >
-        <div className="flex items-center gap-4">
-          <span className="font-bold text-amber-500 text-sm tracking-wider">UTSAVA</span>
-          <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{time}</span>
-          
-          <div className="flex items-center gap-2 text-[10px] ml-4" style={{ WebkitAppRegion: 'no-drag' } as any}>
-            <div className={`px-2 py-0.5 rounded font-bold ${
-              health === 'LIVE' ? 'bg-teal-500/20 text-teal-400' :
-              health === 'DEGRADED' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'
-            }`}>
-              {health}
-            </div>
-            <div className="text-zinc-500 flex items-center gap-1"><Activity size={10} /> {latency}ms</div>
+    <BrailleTerrainBackground 
+      background="#050505" 
+      color="#c3cad4"
+      className="h-screen w-screen overflow-hidden text-zinc-300 selection:bg-indigo-500/30"
+    >
+      <div className="flex flex-col h-full w-full font-sans text-sm">
+        {/* Title Bar - Draggable */}
+        <div 
+          className="flex items-center justify-between px-4 pt-4 pb-2 bg-transparent z-50 shrink-0"
+          style={{ WebkitAppRegion: 'drag' } as any}
+        >
+        <div className="flex items-center gap-4 w-1/3">
+          <div className="flex items-center gap-2">
+             <div className="w-5 h-5 rounded bg-gradient-to-br from-blue-400 to-indigo-600 shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+             <span className="font-bold text-white text-base tracking-wide">Sigma</span>
           </div>
         </div>
 
-        <div className="flex gap-1" style={{ WebkitAppRegion: 'no-drag' } as any}>
-          {['Overview', 'Copilot', 'Risk & Scenarios', 'Alerts & Monitor', 'Proof'].map((tab, i) => (
+        {/* Floating Pill Navbar */}
+        <div className="flex items-center justify-center w-1/3" style={{ WebkitAppRegion: 'no-drag' } as any}>
+          <div className="flex items-center gap-1 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-full p-1.5 shadow-2xl">
+            {['Overview', 'Scenarios', 'Monitor'].map((tab) => (
+              <button 
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-5 py-1.5 text-[15px] font-medium rounded-full transition-all duration-300 ${activeTab === tab ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+              >
+                {tab}
+              </button>
+            ))}
+            
             <button 
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-3 py-1 text-[11px] rounded-t-sm transition-colors border-t-2 ${activeTab === tab ? 'bg-[#1a1a1a] text-amber-400 border-amber-500' : 'text-zinc-500 border-transparent hover:bg-zinc-800'}`}
+              onClick={() => setActiveTab('Copilot')}
+              className="relative inline-flex items-center justify-center rounded-full p-[1px] bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-amber-500 ml-1 transition-transform hover:scale-105"
             >
-              {i+1}: {tab.split(' ')[0]}
+              <span className={`flex items-center justify-center h-full w-full rounded-full px-5 py-1.5 text-[15px] font-medium transition-colors ${activeTab === 'Copilot' ? 'bg-zinc-900/80 text-white' : 'bg-black text-white'}`}>
+                Copilot
+              </span>
             </button>
-          ))}
+          </div>
         </div>
 
-        <div className="flex items-center gap-2" style={{ WebkitAppRegion: 'no-drag' } as any}>
-          <div className="relative flex items-center px-2 py-1 bg-zinc-800 rounded">
-            <Search size={12} className="text-zinc-500 mr-2" />
+        <div className="flex items-center justify-end gap-3 w-1/3" style={{ WebkitAppRegion: 'no-drag' } as any}>
+          <div className="relative flex items-center px-3 py-1.5 bg-black/40 border border-white/5 rounded-full shadow-inner">
+            <Search size={14} className="text-zinc-500 mr-2" />
             <input 
               type="text" 
-              placeholder="/ command..." 
-              className="bg-transparent border-none outline-none text-[11px] w-32 placeholder-zinc-600"
+              placeholder="Search..." 
+              className="bg-transparent border-none outline-none text-sm w-28 placeholder-zinc-500 text-zinc-200"
             />
           </div>
           
-          <button className="p-1.5 hover:bg-zinc-800 rounded relative">
-            <Bell size={13} />
-            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-          </button>
-          <button className="p-1.5 hover:bg-zinc-800 rounded"><Settings size={13} /></button>
-          <div className="w-px h-4 bg-zinc-700 mx-1"></div>
-          <button onClick={handleMinimize} className="p-1.5 hover:bg-zinc-800 rounded"><Minus size={13} /></button>
-          <button onClick={handleMaximize} className="p-1.5 hover:bg-zinc-800 rounded"><Maximize2 size={13} /></button>
-          <button onClick={handleClose} className="p-1.5 hover:bg-red-500 hover:text-white rounded"><X size={13} /></button>
+          <button onClick={handleMinimize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"><Minus size={16} /></button>
+          <button onClick={handleMaximize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"><Maximize2 size={16} /></button>
+          <button onClick={handleClose} className="p-2 hover:bg-rose-500/20 hover:text-rose-400 rounded-full transition-colors text-zinc-400"><X size={16} /></button>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-1 overflow-hidden bg-[#0a0a0a]">
+      <div className="flex-1 p-3 overflow-hidden relative z-10">
         {activeTab.startsWith('Overview') && <OverviewWorkspace />}
         {activeTab.startsWith('Copilot') && <CopilotWorkspace />}
-        {activeTab.startsWith('Risk') && <RiskWorkspace />}
-        {activeTab.startsWith('Alerts') && <AlertsWorkspace />}
-        {activeTab.startsWith('Proof') && <div className="p-4 flex items-center justify-center text-zinc-600 h-full border border-zinc-800 rounded">Proof Panel - Backtest & Audit Log</div>}
+        {activeTab.startsWith('Scenarios') && <RiskWorkspace />}
+        {activeTab.startsWith('Monitor') && <AlertsWorkspace />}
       </div>
-    </div>
+      </div>
+    </BrailleTerrainBackground>
   );
 }
 
@@ -100,41 +103,41 @@ export default function TerminalWindow() {
 // -----------------------------------------------------------------------------
 function OverviewWorkspace() {
   return (
-    <PanelGroup direction="horizontal" className="w-full h-full gap-1">
+    <PanelGroup direction="horizontal" className="w-full h-full gap-3">
       <Panel defaultSize={35} minSize={20}>
-        <PanelGroup direction="vertical" className="gap-1">
+        <PanelGroup direction="vertical" className="gap-3">
           <Panel defaultSize={60}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col">
-              <div className="px-2 py-1.5 bg-[#1a1a1a] text-zinc-300 font-bold border-b border-zinc-800 flex justify-between">
-                <span>PORTFOLIO & EXPOSURE</span>
-                <span className="text-teal-400">₹1,50,00,000</span>
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
+              <div className="px-4 py-3 border-b border-white/10 flex justify-between items-center">
+                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Portfolio Overview</span>
+                <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded-full text-xs border border-emerald-500/20">₹1.50 Cr</span>
               </div>
-              <div className="flex-1 overflow-auto">
+              <div className="flex-1 overflow-auto p-2">
                 <table className="w-full text-left border-collapse">
-                  <thead className="sticky top-0 bg-[#111] text-zinc-500 text-[10px]">
+                  <thead className="sticky top-0 bg-black/40 backdrop-blur-md text-zinc-400 text-xs">
                     <tr>
-                      <th className="font-normal p-2 pb-1 border-b border-zinc-800">TICKER</th>
-                      <th className="font-normal p-2 pb-1 border-b border-zinc-800 text-right">WEIGHT</th>
-                      <th className="font-normal p-2 pb-1 border-b border-zinc-800 text-right">PRICE (INR)</th>
-                      <th className="font-normal p-2 pb-1 border-b border-zinc-800 text-right">DAY CHG</th>
+                      <th className="font-medium p-3 rounded-tl-lg">Ticker</th>
+                      <th className="font-medium p-3 text-right">Weight</th>
+                      <th className="font-medium p-3 text-right">Price</th>
+                      <th className="font-medium p-3 text-right rounded-tr-lg">24h Change</th>
                     </tr>
                   </thead>
                   <tbody>
                     {[
                       { t: 'RELIANCE', w: '12.5%', p: '2,850.40', c: '+1.24%', up: true, tag: 'Energy' },
-                      { t: 'TCS', w: '9.8%', p: '3,892.10', c: '-0.45%', up: false, tag: 'IT' },
-                      { t: 'HDFCBANK', w: '15.2%', p: '1,432.00', c: '+0.89%', up: true, tag: 'Fin' },
-                      { t: 'INFY', w: '7.4%', p: '1,421.90', c: '-1.12%', up: false, tag: 'IT' },
-                      { t: 'ITC', w: '5.1%', p: '412.30', c: '+0.10%', up: true, tag: 'FMCG' },
+                      { t: 'TCS', w: '9.8%', p: '3,892.10', c: '-0.45%', up: false, tag: 'Tech' },
+                      { t: 'HDFCBANK', w: '15.2%', p: '1,432.00', c: '+0.89%', up: true, tag: 'Finance' },
+                      { t: 'INFY', w: '7.4%', p: '1,421.90', c: '-1.12%', up: false, tag: 'Tech' },
+                      { t: 'ITC', w: '5.1%', p: '412.30', c: '+0.10%', up: true, tag: 'Consumer' },
                     ].map(row => (
-                      <tr key={row.t} className="hover:bg-zinc-800/50 cursor-pointer border-b border-zinc-800/50">
-                        <td className="p-2 py-1.5">
-                          <div className="font-bold text-zinc-300">{row.t}</div>
-                          <div className="text-[9px] text-zinc-600 bg-zinc-800 inline-block px-1 rounded">{row.tag}</div>
+                      <tr key={row.t} className="hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 last:border-0">
+                        <td className="p-3">
+                          <div className="font-bold text-white">{row.t}</div>
+                          <div className="text-[10px] text-zinc-400 bg-white/5 border border-white/10 inline-block px-1.5 py-0.5 rounded-md mt-1">{row.tag}</div>
                         </td>
-                        <td className="p-2 text-right text-zinc-400">{row.w}</td>
-                        <td className="p-2 text-right">{row.p}</td>
-                        <td className={`p-2 text-right ${row.up ? 'text-teal-400' : 'text-red-400'}`}>{row.c}</td>
+                        <td className="p-3 text-right text-zinc-300 font-medium">{row.w}</td>
+                        <td className="p-3 text-right text-zinc-200">{row.p}</td>
+                        <td className={`p-3 text-right font-medium ${row.up ? 'text-emerald-400' : 'text-rose-400'}`}>{row.c}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -142,59 +145,64 @@ function OverviewWorkspace() {
               </div>
             </div>
           </Panel>
-          <PanelResizeHandle className="h-1" />
+          <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
           <Panel defaultSize={40}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col">
-              <div className="px-2 py-1.5 bg-[#1a1a1a] text-zinc-300 font-bold border-b border-zinc-800">SENTIMENT FEED</div>
-              <div className="flex-1 overflow-auto p-2 space-y-2">
-                 <SentimentItem time="13:04" type="NEG" score="-0.82" src="Reuters" text="Unexpected monsoon delay raises FMCG inflation fears. ITC and HUL under pressure." />
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
+              <div className="px-4 py-3 border-b border-white/10">
+                <span className="font-semibold text-white">Live Intelligence</span>
+              </div>
+              <div className="flex-1 overflow-auto p-3 space-y-3">
+                 <SentimentItem time="13:04" type="NEG" score="-0.82" src="Reuters" text="Unexpected monsoon delay raises FMCG inflation fears." />
                  <SentimentItem time="12:45" type="POS" score="+0.91" src="BBG" text="Reliance unveils massive green energy capex plan in Gujarat." />
                  <SentimentItem time="11:30" type="WARN" score="-0.45" src="Local" text="Mumbai port congestion affecting engineering exports." />
-                 <SentimentItem time="10:15" type="POS" score="+0.75" src="PTI" text="RBI hints at maintaining repo rate, banking sector reacts positively." />
               </div>
             </div>
           </Panel>
         </PanelGroup>
       </Panel>
-      <PanelResizeHandle className="w-1" />
+      <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
       <Panel defaultSize={65}>
-        <PanelGroup direction="vertical" className="gap-1">
+        <PanelGroup direction="vertical" className="gap-3">
           <Panel defaultSize={70}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col relative">
-              <div className="absolute top-2 left-2 z-10 flex gap-2">
-                <select className="bg-zinc-800 text-zinc-300 text-[10px] p-1 border-none rounded outline-none"><option>RELIANCE (1D)</option></select>
-                <div className="flex gap-1 text-[10px]">
-                  <button className="bg-zinc-800 hover:bg-zinc-700 px-2 py-1 rounded">Volume</button>
-                  <button className="bg-amber-500/20 text-amber-500 hover:bg-amber-500/30 px-2 py-1 rounded border border-amber-500/50">Overlay: Rain Anomaly</button>
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col relative shadow-xl overflow-hidden">
+              <div className="absolute top-4 left-4 z-10 flex gap-2">
+                <select className="bg-black/40 backdrop-blur-md text-white text-xs px-3 py-1.5 border border-white/10 rounded-full outline-none"><option>RELIANCE (1D)</option></select>
+                <div className="flex gap-2 text-xs">
+                  <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full border border-white/5 transition-colors">Volume</button>
+                  <button className="bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30 px-3 py-1.5 rounded-full border border-indigo-500/50 transition-colors shadow-[0_0_15px_rgba(99,102,241,0.2)]">Rain Anomaly Overlay</button>
                 </div>
               </div>
-              <div className="flex-1 w-full" style={{ minHeight: 0 }}>
+              <div className="flex-1 w-full mt-4" style={{ minHeight: 0 }}>
                 <LightweightChartPlaceholder />
               </div>
             </div>
           </Panel>
-          <PanelResizeHandle className="h-1" />
+          <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
           <Panel defaultSize={30}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col">
-              <div className="px-2 py-1.5 bg-[#1a1a1a] text-zinc-300 font-bold border-b border-zinc-800 flex justify-between">
-                <span>MACRO & DISASTER OVERLAYS</span>
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
+              <div className="px-4 py-3 border-b border-white/10">
+                <span className="font-semibold text-white">Macro Variables</span>
               </div>
-              <div className="flex-1 p-2 grid grid-cols-3 gap-2 overflow-auto">
-                <div className="bg-zinc-900 border border-zinc-800 p-2 rounded">
-                  <div className="text-[10px] text-zinc-500 mb-1">USD/INR</div>
-                  <div className="text-lg text-teal-400">83.12 <span className="text-[10px]">-0.05</span></div>
-                  <div className="h-10 mt-2"><Sparkline color="#2dd4bf" /></div>
+              <div className="flex-1 p-3 grid grid-cols-3 gap-3 overflow-auto">
+                <div className="bg-black/20 border border-white/5 p-3 rounded-xl flex flex-col justify-between">
+                  <div className="text-xs text-zinc-400 font-medium">USD/INR</div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">83.12 <span className="text-xs font-normal text-emerald-400 bg-emerald-500/10 px-1 rounded">-0.05</span></div>
+                  </div>
+                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#34d399" /></div>
                 </div>
-                <div className="bg-zinc-900 border border-zinc-800 p-2 rounded">
-                  <div className="text-[10px] text-zinc-500 mb-1">BRENT CRUDE</div>
-                  <div className="text-lg text-red-400">$84.50 <span className="text-[10px]">+1.20</span></div>
-                  <div className="h-10 mt-2"><Sparkline color="#f87171" reverse /></div>
+                <div className="bg-black/20 border border-white/5 p-3 rounded-xl flex flex-col justify-between">
+                  <div className="text-xs text-zinc-400 font-medium">BRENT CRUDE</div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">$84.50 <span className="text-xs font-normal text-rose-400 bg-rose-500/10 px-1 rounded">+1.20</span></div>
+                  </div>
+                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#fb7185" reverse /></div>
                 </div>
-                <div className="bg-red-500/10 border border-red-500/30 p-2 rounded relative overflow-hidden">
-                  <AlertTriangle size={40} className="absolute -right-2 -bottom-2 text-red-500/20" />
-                  <div className="text-[10px] text-red-400 font-bold flex items-center gap-1 mb-1"><AlertTriangle size={10} /> ACTIVE EVENT</div>
-                  <div className="text-sm font-bold text-zinc-200">Cyclone Warning: Gujarat</div>
-                  <div className="text-[10px] text-zinc-400 mt-1">Severity: HIGH • Affected: RELIANCE, ADANIPORTS</div>
+                <div className="bg-gradient-to-br from-rose-500/20 to-orange-500/10 border border-rose-500/30 p-3 rounded-xl relative overflow-hidden flex flex-col justify-center">
+                  <AlertTriangle size={60} className="absolute -right-4 -bottom-4 text-rose-500/20" />
+                  <div className="text-xs text-rose-300 font-bold flex items-center gap-1.5 mb-2 bg-rose-500/20 w-max px-2 py-0.5 rounded-full"><AlertTriangle size={12} /> SYSTEM ALERT</div>
+                  <div className="text-sm font-semibold text-white leading-tight">Cyclone Warning: Gujarat Coastline</div>
+                  <div className="text-xs text-zinc-300 mt-2">Impact: <span className="text-white font-medium">RELIANCE, ADANIPORTS</span></div>
                 </div>
               </div>
             </div>
@@ -225,43 +233,42 @@ function SentimentItem({time, type, score, src, text}: {time: string, type: stri
 // WORKSPACE 2: COPILOT
 // -----------------------------------------------------------------------------
 const initialNodes = [
-  { id: '1', type: 'input', position: { x: 250, y: 0 }, data: { label: 'Query Intent Parser' }, className: 'bg-zinc-800 text-zinc-300 text-[10px] border border-zinc-600 rounded p-2' },
-  { id: '2', position: { x: 100, y: 80 }, data: { label: 'Sentiment Agent' }, className: 'bg-teal-900/50 text-teal-400 text-[10px] border border-teal-500 rounded p-2' },
-  { id: '3', position: { x: 400, y: 80 }, data: { label: 'Risk / Macro Agent' }, className: 'bg-amber-900/50 text-amber-400 text-[10px] border border-amber-500 rounded p-2' },
-  { id: '4', position: { x: 250, y: 160 }, data: { label: 'Ledger Validator' }, className: 'bg-blue-900/50 text-blue-400 text-[10px] border border-blue-500 rounded p-2' },
+  { id: '1', type: 'input', position: { x: 250, y: 0 }, data: { label: 'Query Intent Parser' }, className: 'bg-white/10 backdrop-blur-md text-white text-xs border border-white/20 rounded-xl p-3 shadow-lg' },
+  { id: '2', position: { x: 100, y: 80 }, data: { label: 'Sentiment Agent' }, className: 'bg-emerald-500/10 backdrop-blur-md text-emerald-300 text-xs border border-emerald-500/30 rounded-xl p-3 shadow-lg' },
+  { id: '3', position: { x: 400, y: 80 }, data: { label: 'Risk / Macro Agent' }, className: 'bg-amber-500/10 backdrop-blur-md text-amber-300 text-xs border border-amber-500/30 rounded-xl p-3 shadow-lg' },
+  { id: '4', position: { x: 250, y: 160 }, data: { label: 'Ledger Validator' }, className: 'bg-indigo-500/10 backdrop-blur-md text-indigo-300 text-xs border border-indigo-500/30 rounded-xl p-3 shadow-lg' },
 ];
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#2dd4bf' } },
+  { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#34d399' } },
   { id: 'e1-3', source: '1', target: '3', animated: true, style: { stroke: '#fbbf24' } },
-  { id: 'e2-4', source: '2', target: '4', animated: true, style: { stroke: '#3b82f6' } },
-  { id: 'e3-4', source: '3', target: '4', animated: true, style: { stroke: '#3b82f6' } },
+  { id: 'e2-4', source: '2', target: '4', animated: true, style: { stroke: '#818cf8' } },
+  { id: 'e3-4', source: '3', target: '4', animated: true, style: { stroke: '#818cf8' } },
 ];
 
 function CopilotWorkspace() {
   const [nodes, setNodes] = useState(initialNodes);
   
-  // Simulate active agent cycling
   useEffect(() => {
     let step = 0;
     const interval = setInterval(() => {
       step = (step + 1) % 4;
       setNodes(nds => nds.map((n, i) => ({
         ...n,
-        className: n.className.replace(/shadow-\[.*?\]/g, '') + (i === step ? ' shadow-[0_0_10px_rgba(255,255,255,0.3)]' : '')
+        className: n.className.replace(/shadow-\[.*?\]/g, 'shadow-lg') + (i === step ? ' shadow-[0_0_20px_rgba(255,255,255,0.4)] border-white/50' : '')
       })));
     }, 2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <PanelGroup direction="horizontal" className="w-full h-full gap-1">
+    <PanelGroup direction="horizontal" className="w-full h-full gap-3">
       <Panel defaultSize={30}>
-        <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col">
-          <div className="px-2 py-1.5 bg-[#1a1a1a] text-zinc-300 font-bold border-b border-zinc-800 flex items-center justify-between">
-            <span>MULTI-AGENT EXECUTION</span>
-            <span className="text-[9px] text-amber-500 bg-amber-500/10 px-1 rounded border border-amber-500/20">EXPERT MODE</span>
+        <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+            <span className="font-semibold text-white">Execution Graph</span>
+            <span className="text-[10px] text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">EXPERT MODE</span>
           </div>
-          <div className="flex-1 bg-zinc-950 relative">
+          <div className="flex-1 relative bg-black/20">
             <ReactFlow 
               nodes={nodes} 
               edges={initialEdges} 
@@ -269,56 +276,56 @@ function CopilotWorkspace() {
               proOptions={{ hideAttribution: true }}
               colorMode="dark"
             >
-              <Background color="#333" gap={16} size={1} />
+              <Background color="rgba(255,255,255,0.05)" gap={16} size={1} />
             </ReactFlow>
           </div>
-          <div className="h-32 border-t border-zinc-800 bg-[#111] p-2 overflow-auto font-mono text-[10px] text-zinc-400 space-y-1">
-            <div><span className="text-teal-400">[Sentiment]</span> Extracted FinBERT scores for RELIANCE (0.85)</div>
-            <div><span className="text-amber-400">[Macro]</span> Correlating crude oil spikes with historical margins...</div>
-            <div className="text-blue-400 flex items-center gap-1"><Loader2 size={10} className="animate-spin" /> [Validator] Verifying ledger entries...</div>
+          <div className="h-40 border-t border-white/10 bg-black/40 p-4 overflow-auto font-mono text-xs text-zinc-400 space-y-2">
+            <div><span className="text-emerald-400 font-bold">[Sentiment]</span> Extracted FinBERT scores for RELIANCE (0.85)</div>
+            <div><span className="text-amber-400 font-bold">[Macro]</span> Correlating crude oil spikes with historical margins...</div>
+            <div className="text-indigo-400 font-bold flex items-center gap-2 mt-2"><Loader2 size={12} className="animate-spin" /> [Validator] Verifying ledger entries...</div>
           </div>
         </div>
       </Panel>
-      <PanelResizeHandle className="w-1" />
+      <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
       <Panel defaultSize={70}>
-        <div className="h-full flex flex-col gap-1">
-          <div className="flex-1 bg-[#111] border border-zinc-800 rounded flex flex-col">
-            <div className="px-3 py-2 bg-[#1a1a1a] border-b border-zinc-800 flex justify-between items-center">
-              <div className="font-bold">ANALYSIS RESULTS</div>
-              <div className="flex gap-2">
-                <span className="text-[10px] text-zinc-500">CONFIDENCE:</span>
-                <span className="text-[10px] text-teal-400 font-bold">88%</span>
+        <div className="h-full flex flex-col gap-3">
+          <div className="flex-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-white/10 flex justify-between items-center bg-black/20">
+              <div className="font-semibold text-white">Copilot Response</div>
+              <div className="flex gap-2 items-center">
+                <span className="text-xs text-zinc-400">Confidence:</span>
+                <span className="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded-full">88%</span>
               </div>
             </div>
-            <div className="p-4 overflow-auto text-sm leading-relaxed text-zinc-300">
-              <p className="mb-4">
-                Based on the active Cyclone Warning in Gujarat and rising Brent Crude prices, <span className="bg-zinc-800 text-amber-400 px-1 rounded cursor-pointer border-b border-amber-500/50">RELIANCE</span> faces a short-term margin compression risk of <span className="bg-zinc-800 text-teal-400 px-1 rounded cursor-pointer border-b border-teal-500/50">4.2%</span> <span className="text-[10px] text-zinc-500">(Ref: Ledger #94A)</span>.
+            <div className="p-6 overflow-auto text-[15px] leading-relaxed text-zinc-200">
+              <p className="mb-6">
+                Based on the active Cyclone Warning in Gujarat and rising Brent Crude prices, <span className="bg-white/10 text-white px-1.5 py-0.5 rounded cursor-pointer border-b border-white/20 hover:bg-white/20 transition-colors">RELIANCE</span> faces a short-term margin compression risk of <span className="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded cursor-pointer border-b border-emerald-500/50 hover:bg-emerald-500/30 transition-colors font-medium">4.2%</span> <span className="text-xs text-zinc-500">(Ref: Ledger #94A)</span>.
               </p>
-              <div className="bg-red-500/5 border border-red-500/20 rounded p-3 mb-4">
-                <div className="text-red-400 text-[10px] font-bold mb-1 flex items-center gap-1"><ShieldCheck size={12}/> RED TEAM COUNTER-ARGUMENT</div>
-                <p className="text-[11px] text-zinc-400">The historical analog from 2019 suggests that downstream refining margins often expand post-cyclone due to regional supply constraints, potentially offsetting upstream disruptions.</p>
+              <div className="bg-gradient-to-r from-rose-500/10 to-transparent border-l-2 border-rose-500 p-4 mb-6 rounded-r-xl">
+                <div className="text-rose-400 text-xs font-bold mb-2 flex items-center gap-1.5"><ShieldCheck size={14}/> RED TEAM COUNTER-ARGUMENT</div>
+                <p className="text-sm text-zinc-300">The historical analog from 2019 suggests that downstream refining margins often expand post-cyclone due to regional supply constraints, potentially offsetting upstream disruptions.</p>
               </div>
-              <h3 className="font-bold text-[12px] mb-2 text-zinc-100">RECOMMENDED ACTION: HEDGE</h3>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-zinc-900 border border-zinc-700 p-2 rounded">
-                  <div className="text-[10px] text-zinc-500">INSTRUMENT</div>
-                  <div className="font-bold text-amber-400">RELIANCE 2800 PE</div>
-                  <div className="text-[10px] text-zinc-400 mt-1">Size: 2% of portfolio</div>
+              <h3 className="font-semibold text-sm mb-3 text-white uppercase tracking-wider">Recommended Action</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-black/20 border border-white/10 p-4 rounded-xl shadow-inner">
+                  <div className="text-xs text-zinc-400 mb-1">INSTRUMENT</div>
+                  <div className="font-bold text-lg text-white">RELIANCE 2800 PE</div>
+                  <div className="text-sm text-zinc-400 mt-1">Size: 2% of portfolio</div>
                 </div>
-                <div className="bg-zinc-900 border border-zinc-700 p-2 rounded flex flex-col justify-center gap-2">
-                  <button className="bg-teal-600 hover:bg-teal-500 text-white py-1 px-2 rounded text-[11px] font-bold flex items-center justify-center gap-1"><CheckCircle2 size={12}/> APPROVE EXECTUTION</button>
-                  <button className="bg-zinc-700 hover:bg-zinc-600 text-white py-1 px-2 rounded text-[11px] font-bold">REJECT</button>
+                <div className="bg-black/20 border border-white/10 p-4 rounded-xl flex flex-col justify-center gap-3 shadow-inner">
+                  <button className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(79,70,229,0.4)]"><CheckCircle2 size={16}/> APPROVE HEDGE</button>
+                  <button className="bg-white/5 hover:bg-white/10 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">Reject</button>
                 </div>
               </div>
             </div>
           </div>
-          <div className="h-12 bg-[#111] border border-zinc-800 rounded p-1.5 flex items-center gap-2">
-             <div className="bg-zinc-800 px-2 py-1.5 rounded text-amber-500"><Play size={14} /></div>
+          <div className="h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-2 flex items-center gap-3 shadow-xl">
+             <div className="bg-indigo-500 text-white p-2 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"><Play size={16} className="ml-0.5" /></div>
              <input 
                type="text" 
-               className="flex-1 bg-transparent border-none outline-none text-sm placeholder-zinc-600 text-zinc-200" 
-               placeholder="Ask Copilot: 'What is the downside risk if crude hits $95?'"
-               defaultValue="Analyze RELIANCE exposure to the active Gujarat cyclone and rising crude."
+               className="flex-1 bg-transparent border-none outline-none text-base placeholder-zinc-500 text-white" 
+               placeholder="Ask Copilot..."
+               defaultValue="Analyze RELIANCE exposure to the active Gujarat cyclone."
              />
           </div>
         </div>
@@ -340,44 +347,44 @@ function RiskWorkspace() {
   ];
 
   return (
-    <PanelGroup direction="vertical" className="w-full h-full gap-1">
+    <PanelGroup direction="vertical" className="w-full h-full gap-3">
       <Panel defaultSize={50}>
-        <PanelGroup direction="horizontal" className="gap-1">
+        <PanelGroup direction="horizontal" className="gap-3">
           <Panel defaultSize={30}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col p-3">
-              <div className="font-bold text-amber-500 mb-4 text-xs">PORTFOLIO RISK (1D)</div>
-              <div className="space-y-4">
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col p-5 shadow-xl">
+              <div className="font-semibold text-white mb-6 text-base">Portfolio Risk (1D)</div>
+              <div className="space-y-6">
                 <div>
-                  <div className="text-[10px] text-zinc-500">Value at Risk (95%)</div>
-                  <div className="text-xl text-red-400 font-bold">-₹3,45,000</div>
-                  <div className="text-[10px] text-zinc-500 mt-1">2.3% of portfolio</div>
+                  <div className="text-xs text-zinc-400 mb-1">Value at Risk (95%)</div>
+                  <div className="text-3xl text-rose-400 font-bold tracking-tight">-₹3.45L</div>
+                  <div className="text-xs text-zinc-500 mt-2">2.3% of portfolio</div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-zinc-500">Beta vs NIFTY 50</div>
-                  <div className="text-xl text-teal-400 font-bold">1.12</div>
+                  <div className="text-xs text-zinc-400 mb-1">Beta vs NIFTY 50</div>
+                  <div className="text-2xl text-white font-semibold">1.12</div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-zinc-500">Annualized Volatility</div>
-                  <div className="text-xl text-amber-400 font-bold">14.5%</div>
+                  <div className="text-xs text-zinc-400 mb-1">Annualized Volatility</div>
+                  <div className="text-2xl text-white font-semibold">14.5%</div>
                 </div>
               </div>
             </div>
           </Panel>
-          <PanelResizeHandle className="w-1" />
+          <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
           <Panel defaultSize={70}>
-            <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col p-2">
-              <div className="font-bold text-zinc-400 text-xs mb-2 pl-2">MONTE CARLO P&L SIMULATION (5 DAYS)</div>
+            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col p-4 shadow-xl">
+              <div className="font-semibold text-white mb-4 pl-2">Monte Carlo P&L Simulation (5 Days)</div>
               <div className="flex-1">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={dummyData} margin={{ top: 10, right: 30, left: 20, bottom: 0 }}>
-                    <XAxis dataKey="name" tick={{fontSize: 10, fill: '#666'}} stroke="#333" />
-                    <YAxis tick={{fontSize: 10, fill: '#666'}} stroke="#333" />
-                    <Tooltip contentStyle={{backgroundColor: '#111', border: '1px solid #333', fontSize: '10px'}} />
-                    <Area type="monotone" dataKey="p95" stroke="none" fill="#3b82f6" fillOpacity={0.1} />
-                    <Area type="monotone" dataKey="p5" stroke="none" fill="#ef4444" fillOpacity={0.1} />
-                    <Area type="monotone" dataKey="p75" stroke="none" fill="#3b82f6" fillOpacity={0.2} />
-                    <Area type="monotone" dataKey="p25" stroke="none" fill="#ef4444" fillOpacity={0.2} />
-                    <Line type="monotone" dataKey="p50" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                    <XAxis dataKey="name" tick={{fontSize: 12, fill: '#999'}} stroke="#333" axisLine={false} tickLine={false} />
+                    <YAxis tick={{fontSize: 12, fill: '#999'}} stroke="#333" axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', backdropFilter: 'blur(10px)'}} itemStyle={{color: '#fff'}} />
+                    <Area type="monotone" dataKey="p95" stroke="none" fill="#6366f1" fillOpacity={0.1} />
+                    <Area type="monotone" dataKey="p5" stroke="none" fill="#f43f5e" fillOpacity={0.1} />
+                    <Area type="monotone" dataKey="p75" stroke="none" fill="#6366f1" fillOpacity={0.2} />
+                    <Area type="monotone" dataKey="p25" stroke="none" fill="#f43f5e" fillOpacity={0.2} />
+                    <Line type="monotone" dataKey="p50" stroke="#fff" strokeWidth={3} dot={false} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -385,10 +392,13 @@ function RiskWorkspace() {
           </Panel>
         </PanelGroup>
       </Panel>
-      <PanelResizeHandle className="h-1" />
+      <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
       <Panel defaultSize={50}>
-        <div className="h-full bg-[#111] border border-zinc-800 rounded p-3 text-zinc-500 flex items-center justify-center">
-           Correlation Heatmap & Exposure Breakdown (Placeholder)
+        <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col shadow-xl">
+           <div className="font-semibold text-white mb-4">Correlation Heatmap</div>
+           <div className="flex-1 flex items-center justify-center text-zinc-500 border border-white/5 rounded-xl bg-black/20">
+             [ Visualization Placeholder ]
+           </div>
         </div>
       </Panel>
     </PanelGroup>
@@ -400,33 +410,35 @@ function RiskWorkspace() {
 // -----------------------------------------------------------------------------
 function AlertsWorkspace() {
   return (
-    <div className="h-full bg-[#111] border border-zinc-800 rounded flex flex-col">
-       <div className="px-3 py-2 bg-[#1a1a1a] text-zinc-300 font-bold border-b border-zinc-800">SYSTEM ALERTS & MONITORING</div>
+    <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
+       <div className="px-5 py-4 bg-black/20 border-b border-white/10">
+         <span className="font-semibold text-white text-lg">System Alerts & Monitoring</span>
+       </div>
        <div className="flex-1 overflow-auto p-2">
-         <table className="w-full text-left border-collapse text-[11px]">
-            <thead className="bg-[#111] text-zinc-500 border-b border-zinc-800">
+         <table className="w-full text-left border-collapse">
+            <thead className="text-zinc-400 text-xs">
               <tr>
-                <th className="p-2 font-normal">TIME</th>
-                <th className="p-2 font-normal">TIER</th>
-                <th className="p-2 font-normal">TICKERS</th>
-                <th className="p-2 font-normal">REASON</th>
-                <th className="p-2 font-normal">STATUS</th>
+                <th className="p-4 font-medium">Time</th>
+                <th className="p-4 font-medium">Severity</th>
+                <th className="p-4 font-medium">Asset</th>
+                <th className="p-4 font-medium">Trigger</th>
+                <th className="p-4 font-medium text-right">Action</th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="border-b border-zinc-800/50 hover:bg-zinc-800/50">
-                <td className="p-2 text-zinc-400">12:30:15</td>
-                <td className="p-2"><span className="bg-red-500/20 text-red-400 px-1 rounded font-bold border border-red-500/50">T2</span></td>
-                <td className="p-2 text-zinc-300 font-bold">RELIANCE</td>
-                <td className="p-2 text-zinc-300">Cyclone warning mapped to Gujarat refinery assets. Margin risk detected.</td>
-                <td className="p-2"><button className="text-[9px] bg-zinc-700 px-2 py-0.5 rounded hover:bg-zinc-600">ACKNOWLEDGE</button></td>
+            <tbody className="text-sm">
+              <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                <td className="p-4 text-zinc-400">12:30 PM</td>
+                <td className="p-4"><span className="bg-rose-500/10 text-rose-400 px-2.5 py-1 rounded-full text-xs font-semibold border border-rose-500/20">HIGH</span></td>
+                <td className="p-4 text-white font-medium">RELIANCE</td>
+                <td className="p-4 text-zinc-300">Cyclone warning mapped to Gujarat refinery assets. Margin risk detected.</td>
+                <td className="p-4 text-right"><button className="text-xs bg-white/10 text-white px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors font-medium">Acknowledge</button></td>
               </tr>
-              <tr className="border-b border-zinc-800/50 hover:bg-zinc-800/50">
-                <td className="p-2 text-zinc-400">11:15:00</td>
-                <td className="p-2"><span className="bg-amber-500/20 text-amber-400 px-1 rounded font-bold border border-amber-500/50">T1</span></td>
-                <td className="p-2 text-zinc-300 font-bold">HDFCBANK</td>
-                <td className="p-2 text-zinc-300">Volume breakout > 3x 20DMA detected on options chain.</td>
-                <td className="p-2 text-teal-500">DISMISSED</td>
+              <tr className="hover:bg-white/5 transition-colors">
+                <td className="p-4 text-zinc-400">11:15 AM</td>
+                <td className="p-4"><span className="bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-full text-xs font-semibold border border-amber-500/20">MED</span></td>
+                <td className="p-4 text-white font-medium">HDFCBANK</td>
+                <td className="p-4 text-zinc-300">Volume breakout > 3x 20DMA detected on options chain.</td>
+                <td className="p-4 text-right text-zinc-500 font-medium">Dismissed</td>
               </tr>
             </tbody>
          </table>

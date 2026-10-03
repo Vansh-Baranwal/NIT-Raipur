@@ -70,62 +70,64 @@ export default function PetWindow() {
   };
 
   return (
-    <div 
-      className="w-screen h-screen flex flex-col items-center justify-end bg-transparent p-4"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ WebkitAppRegion: hovered ? 'drag' : 'no-drag' } as any}
-    >
-      <AnimatePresence>
-        {hovered && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute top-4 right-4 bg-zinc-800 text-zinc-400 hover:text-white hover:bg-red-500 rounded-full p-1.5 shadow-lg z-50 cursor-pointer"
-            style={{ WebkitAppRegion: 'no-drag' } as any}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (window.petApi) window.petApi.hide();
-            }}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {state === 'pointing' && alertInfo && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="bg-zinc-800 text-white p-3 rounded-lg shadow-lg mb-2 text-sm max-w-[200px]"
-            style={{ WebkitAppRegion: 'no-drag' } as any}
-            onClick={() => {
-              if(window.terminalApi) window.terminalApi.open({deepLink: 'alert'});
-            }}
-          >
-            <div className="font-bold text-red-400">{alertInfo.title}</div>
-            <div className="text-zinc-300">{alertInfo.reason}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+    <div className="w-screen h-screen flex flex-col items-center justify-end bg-transparent p-4">
       <div 
-        className="relative w-32 h-32 cursor-pointer transition-transform hover:scale-105"
-        onClick={() => {
-          if (window.terminalApi) window.terminalApi.open({});
-        }}
-        style={{ WebkitAppRegion: 'no-drag' } as any}
+        className="relative flex flex-col items-center justify-end"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ WebkitAppRegion: hovered ? 'drag' : 'no-drag' } as any}
       >
-        <motion.img 
-          src={`/pet/${state}.png`} 
-          alt="pet" 
-          className="absolute inset-0 w-full h-full object-contain drop-shadow-xl"
-          animate={{ y: [0, -5, 0] }}
-          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-        />
+        <AnimatePresence>
+          {hovered && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="absolute -top-2 -right-2 bg-zinc-800 text-zinc-400 hover:text-white hover:bg-red-500 rounded-full p-1.5 shadow-lg z-50 cursor-pointer"
+              style={{ WebkitAppRegion: 'no-drag' } as any}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (window.petApi) window.petApi.hide();
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {state === 'pointing' && alertInfo && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="bg-zinc-800 text-white p-3 rounded-lg shadow-lg mb-2 text-sm max-w-[200px]"
+              style={{ WebkitAppRegion: 'no-drag' } as any}
+              onClick={() => {
+                if(window.terminalApi) window.terminalApi.open({deepLink: 'alert'});
+              }}
+            >
+              <div className="font-bold text-red-400">{alertInfo.title}</div>
+              <div className="text-zinc-300">{alertInfo.reason}</div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div 
+          className="relative w-32 h-32 cursor-pointer transition-transform hover:scale-105"
+          onClick={() => {
+            if (window.terminalApi) window.terminalApi.open({});
+          }}
+          style={{ WebkitAppRegion: 'no-drag' } as any}
+        >
+          <motion.img 
+            src={`/pet/${state}.png`} 
+            alt="pet" 
+            className="absolute inset-0 w-full h-full object-contain drop-shadow-xl pointer-events-none"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -2,27 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+
+.font-display {
+  font-family: 'Montserrat', sans-serif;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    /* other shadcn vars ... */
   }
 
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    /* Bloomberg dark colors */
   }
 }
 
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden; /* No body scroll */
-  user-select: none; /* No text selection outside content */
-  touch-action: none; /* Disable pinch zoom */
-  -webkit-app-region: no-drag; /* Default no-drag */
+  overflow: hidden; 
+  user-select: none; 
+  touch-action: none; 
+  -webkit-app-region: no-drag; 
+  font-family: 'Satoshi', sans-serif;
 }
 
 /* Custom scrollbars for panels */
@@ -34,14 +39,21 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* Allow selection in specific areas if needed, e.g. text inputs */
 input, textarea, .selectable {
   user-select: text;
+}
+
+.bg-sigma {
+  background-color: #050505;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
