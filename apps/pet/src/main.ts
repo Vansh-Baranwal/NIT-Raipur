@@ -1,5 +1,5 @@
 
-import { app, BrowserWindow, Tray, Menu, shell, ipcMain, nativeImage } from "electron";
+import { app, BrowserWindow, Tray, Menu, shell, ipcMain, nativeImage, globalShortcut } from "electron";
 import * as path from "path";
 import { config } from "./config";
 import { ReconnectingSocket } from "./ws";
@@ -46,6 +46,17 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
+
+  const shortcut = (config.get("shortcut") as string) || "CommandOrControl+Shift+Space";
+  try {
+    globalShortcut.register("Super+Shift+F23", () => {
+      win?.isVisible() ? win.hide() : win?.show();
+    });
+  } catch(e) {
+    globalShortcut.register(shortcut, () => {
+      win?.isVisible() ? win.hide() : win?.show();
+    });
+  }
 
   tray = new Tray(nativeImage.createEmpty()); 
   const contextMenu = Menu.buildFromTemplate([
