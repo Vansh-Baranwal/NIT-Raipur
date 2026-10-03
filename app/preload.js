@@ -19,7 +19,7 @@ contextBridge.exposeInMainWorld('petApi', {
   show: () => ipcRenderer.invoke('pet:show'),
   hide: () => ipcRenderer.invoke('pet:hide'),
   setIgnoreMouse: (ignore) => ipcRenderer.invoke('pet:setIgnoreMouse', ignore),
-  moveBy: (dx, dy) => ipcRenderer.invoke('pet:moveBy', dx, dy),
+  moveBy: (dx, dy) => ipcRenderer.send('pet:moveBy', dx, dy),
   onShowCopilotThinking: (callback) => {
     ipcRenderer.on('show-copilot-thinking', () => callback());
   }

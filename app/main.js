@@ -89,8 +89,8 @@ function createTerminalWindow() {
 
 function createPetWindow() {
   petWindow = new BrowserWindow({
-    width: 300,
-    height: 350,
+    width: 450,
+    height: 500,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
@@ -109,7 +109,7 @@ function createPetWindow() {
   const { screen } = require('electron');
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.workAreaSize;
-  petWindow.setPosition(width - 300, height - 350);
+  petWindow.setPosition(width - 450, height - 500);
 
   const isDev = !app.isPackaged;
   if (isDev) {
@@ -190,6 +190,16 @@ ipcMain.handle('pet:show', () => petWindow.show());
 ipcMain.handle('pet:hide', () => petWindow.hide());
 ipcMain.handle('pet:setIgnoreMouse', (e, ignore) => {
   if (petWindow) petWindow.setIgnoreMouseEvents(ignore, { forward: true });
+});
+ipcMain.on('pet:moveBy', (e, dx, dy) => {
+  if (petWindow) {
+    const [x, y] = petWindow.getPosition();
+    const safeDx = Number(dx) || 0;
+    const safeDy = Number(dy) || 0;
+    if (safeDx !== 0 || safeDy !== 0) {
+      petWindow.setPosition(Math.round(x + safeDx), Math.round(y + safeDy));
+    }
+  }
 });
 
 ipcMain.handle('window:minimize', (e) => {

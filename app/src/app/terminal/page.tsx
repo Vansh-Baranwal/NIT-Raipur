@@ -149,12 +149,10 @@ export default function TerminalWindow() {
       <div className="flex-1 overflow-hidden relative z-10 flex flex-col">
          {isLanding ? (
             <div className="flex-1 flex flex-col items-center justify-center -mt-20 px-4">
-               <div className="mb-8 flex items-center gap-3">
-                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-600 shadow-[0_0_20px_rgba(99,102,241,0.6)] animate-pulse"></div>
-                 <h1 className="text-4xl font-display text-white tracking-widest uppercase">Sigma</h1>
+               <div className="w-full max-w-3xl text-left mb-12">
+                 <h2 className="text-6xl font-display font-bold tracking-widest uppercase text-white mb-4">What's</h2>
+                 <h2 className="text-5xl font-display font-bold tracking-widest uppercase text-[#7a8a9c]">On your Mind?</h2>
                </div>
-               
-               <h2 className="text-xl font-mono text-[#7a8a9c] mb-10 tracking-widest uppercase">What do you want to know?</h2>
                
                <div className="w-full max-w-3xl bg-[#121821]/60 backdrop-blur-2xl border border-[#1f2a36] rounded-2xl p-2 shadow-[0_0_40px_rgba(0,0,0,0.5)] flex items-center transition-all focus-within:border-[#3ddc97]/50 focus-within:shadow-[0_0_30px_rgba(61,220,151,0.15)] group">
                  <div className="text-[#3ddc97] ml-6 mr-4 opacity-50 group-focus-within:opacity-100 transition-opacity">
