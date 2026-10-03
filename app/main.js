@@ -96,7 +96,7 @@ function createPetWindow() {
     alwaysOnTop: true,
     skipTaskbar: true,
     hasShadow: false,
-    show: false,
+    show: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -148,12 +148,14 @@ function createTray() {
 
 function registerGlobalShortcut(shortcut) {
   globalShortcut.unregisterAll();
+  let success = false;
   try {
-    globalShortcut.register('Super+Shift+F23', () => {
+    success = globalShortcut.register('Super+Shift+F23', () => {
       handleCopilotShortcut();
     });
-  } catch(e) {
-    // Fallback
+  } catch(e) {}
+  
+  if (!success) {
     globalShortcut.register(shortcut, () => {
       handleCopilotShortcut();
     });

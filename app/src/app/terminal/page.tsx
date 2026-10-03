@@ -84,16 +84,18 @@ export default function TerminalWindow() {
         </div>
 
         {/* Floating Pill Navbar */}
-        {!isLanding ? (
         <div className="flex items-center justify-center flex-1 shrink-0 whitespace-nowrap" style={{ WebkitAppRegion: 'no-drag' } as any}>
           <div className="flex items-center gap-1 bg-black/90 backdrop-blur-2xl border border-[#1f2a36] rounded-full p-1.5 shadow-2xl relative">
             {/* MOCK TAG */}
             <div className="absolute -top-3 -right-3 bg-[#ffb000] text-[#121821] text-[9px] font-bold px-1.5 py-0.5 uppercase z-10 rounded-sm font-mono">MOCK</div>
-            {['Overview', 'Portfolio', 'Paper', 'Backtest', 'Health'].map((tab) => (
+            {['Home', 'Overview', 'Portfolio', 'Paper', 'Backtest', 'Health'].map((tab) => (
               <button 
                 key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1.5 text-[12px] font-medium rounded-full transition-all duration-300 uppercase ${activeTab === tab ? 'bg-white/10 text-white' : 'text-[#7a8a9c] hover:text-white hover:bg-white/5'}`}
+                onClick={() => {
+                  if (tab === 'Home') setIsLanding(true);
+                  else { setActiveTab(tab); setIsLanding(false); }
+                }}
+                className={`px-4 py-1.5 text-[12px] font-medium rounded-full transition-all duration-300 uppercase ${(tab === 'Home' && isLanding) || (activeTab === tab && !isLanding) ? 'bg-white/10 text-white' : 'text-[#7a8a9c] hover:text-white hover:bg-white/5'}`}
               >
                 {tab}
               </button>
@@ -106,7 +108,6 @@ export default function TerminalWindow() {
             </button>
           </div>
         </div>
-        ) : <div className="flex-1"></div>}
 
         <div className="flex items-center justify-end gap-3 w-1/3" style={{ WebkitAppRegion: 'no-drag' } as any}>
           <div className="relative flex items-center px-3 py-1.5 bg-black/40 border border-[#1f2a36] rounded-full shadow-inner">
