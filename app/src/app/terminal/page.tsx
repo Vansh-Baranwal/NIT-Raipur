@@ -48,12 +48,14 @@ export default function TerminalWindow() {
 
         {/* Floating Pill Navbar */}
         <div className="flex items-center justify-center w-1/3" style={{ WebkitAppRegion: 'no-drag' } as any}>
-          <div className="flex items-center gap-1 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-full p-1.5 shadow-2xl">
+          <div className="flex items-center gap-1 bg-black/90 backdrop-blur-2xl border border-[#1f2a36] rounded-full p-1.5 shadow-2xl relative">
+            {/* MOCK TAG */}
+            <div className="absolute -top-3 -right-3 bg-[#ffb000] text-[#121821] text-[9px] font-bold px-1.5 py-0.5 uppercase z-10 rounded-sm font-mono">MOCK</div>
             {['Overview', 'Scenarios', 'Monitor'].map((tab) => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-1.5 text-[15px] font-medium rounded-full transition-all duration-300 ${activeTab === tab ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+                className={`px-5 py-1.5 text-[15px] font-medium rounded-full transition-all duration-300 ${activeTab === tab ? 'bg-white/10 text-[#e6edf3]' : 'text-[#7a8a9c] hover:text-white hover:bg-white/5'}`}
               >
                 {tab}
               </button>
@@ -63,7 +65,7 @@ export default function TerminalWindow() {
               onClick={() => setActiveTab('Copilot')}
               className="relative inline-flex items-center justify-center rounded-full p-[1px] bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-amber-500 ml-1 transition-transform hover:scale-105"
             >
-              <span className={`flex items-center justify-center h-full w-full rounded-full px-5 py-1.5 text-[15px] font-medium transition-colors ${activeTab === 'Copilot' ? 'bg-zinc-900/80 text-white' : 'bg-black text-white'}`}>
+              <span className={`flex items-center justify-center h-full w-full rounded-full px-5 py-1.5 text-[15px] font-medium transition-colors ${activeTab === 'Copilot' ? 'bg-[#121821] text-[#e6edf3]' : 'bg-black text-[#e6edf3]'}`}>
                 Copilot
               </span>
             </button>
@@ -71,19 +73,37 @@ export default function TerminalWindow() {
         </div>
 
         <div className="flex items-center justify-end gap-3 w-1/3" style={{ WebkitAppRegion: 'no-drag' } as any}>
-          <div className="relative flex items-center px-3 py-1.5 bg-black/40 border border-white/5 rounded-full shadow-inner">
-            <Search size={14} className="text-zinc-500 mr-2" />
+          <div className="relative flex items-center px-3 py-1.5 bg-black/40 border border-[#1f2a36] rounded-full shadow-inner">
+            <Search size={14} className="text-[#7a8a9c] mr-2" />
             <input 
               type="text" 
               placeholder="Search..." 
-              className="bg-transparent border-none outline-none text-sm w-28 placeholder-zinc-500 text-zinc-200"
+              className="bg-transparent border-none outline-none text-sm w-28 placeholder-[#7a8a9c] text-[#e6edf3]"
             />
           </div>
           
-          <button onClick={handleMinimize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"><Minus size={16} /></button>
-          <button onClick={handleMaximize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"><Maximize2 size={16} /></button>
-          <button onClick={handleClose} className="p-2 hover:bg-rose-500/20 hover:text-rose-400 rounded-full transition-colors text-zinc-400"><X size={16} /></button>
+          <button onClick={handleMinimize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-[#7a8a9c] hover:text-[#e6edf3]"><Minus size={16} /></button>
+          <button onClick={handleMaximize} className="p-2 hover:bg-white/10 rounded-full transition-colors text-[#7a8a9c] hover:text-[#e6edf3]"><Maximize2 size={16} /></button>
+          <button onClick={handleClose} className="p-2 hover:bg-[#ff4d6d]/20 hover:text-[#ff4d6d] rounded-full transition-colors text-[#7a8a9c]"><X size={16} /></button>
         </div>
+      </div>
+
+      {/* Ticker Tape */}
+      <div className="w-full bg-[#121821]/80 backdrop-blur-md border-y border-[#1f2a36] flex items-center overflow-hidden shrink-0 h-7" style={{ WebkitAppRegion: 'no-drag' } as any}>
+         <div className="flex whitespace-nowrap animate-marquee gap-12 font-mono text-[10px] uppercase font-bold px-4">
+            <span className="text-[#e6edf3]">RELIANCE.NS <span className="text-[#3ddc97]">▲ 1.2%</span></span>
+            <span className="text-[#e6edf3]">HDFCBANK.NS <span className="text-[#3ddc97]">▲ 0.8%</span></span>
+            <span className="text-[#e6edf3]">INFY.NS <span className="text-[#ff4d6d]">▼ 1.1%</span></span>
+            <span className="text-[#e6edf3]">TCS.NS <span className="text-[#ff4d6d]">▼ 0.4%</span></span>
+            <span className="text-[#e6edf3]">ITC.NS <span className="text-[#3ddc97]">▲ 0.1%</span></span>
+            <span className="text-[#e6edf3]">BRENT <span className="text-[#ff4d6d]">▲ 1.4%</span></span>
+            <span className="text-[#e6edf3]">USDINR <span className="text-[#3ddc97]">▼ 0.1%</span></span>
+            <span className="text-[#e6edf3]">NIFTY <span className="text-[#ff4d6d]">▼ 2.1%</span></span>
+            {/* Duplicate for infinite effect */}
+            <span className="text-[#e6edf3] ml-12">RELIANCE.NS <span className="text-[#3ddc97]">▲ 1.2%</span></span>
+            <span className="text-[#e6edf3]">HDFCBANK.NS <span className="text-[#3ddc97]">▲ 0.8%</span></span>
+            <span className="text-[#e6edf3]">INFY.NS <span className="text-[#ff4d6d]">▼ 1.1%</span></span>
+         </div>
       </div>
 
       {/* Main Content Area */}
@@ -107,19 +127,19 @@ function OverviewWorkspace() {
       <Panel defaultSize={35} minSize={20}>
         <PanelGroup direction="vertical" className="gap-3">
           <Panel defaultSize={60}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
-              <div className="px-4 py-3 border-b border-white/10 flex justify-between items-center">
-                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Portfolio Overview</span>
-                <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded-full text-xs border border-emerald-500/20">₹1.50 Cr</span>
+            <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden">
+              <div className="px-3 py-2 border-b border-[#1f2a36] flex justify-between items-center bg-black/40">
+                <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍PORTFOLIO OVERVIEW</span>
+                <span className="text-[#3ddc97] font-mono font-bold bg-[#3ddc97]/10 px-2 py-0.5 border border-[#3ddc97]/20">₹1.50 Cr</span>
               </div>
-              <div className="flex-1 overflow-auto p-2">
-                <table className="w-full text-left border-collapse">
-                  <thead className="sticky top-0 bg-black/40 backdrop-blur-md text-zinc-400 text-xs">
+              <div className="flex-1 overflow-auto p-3">
+                <table className="w-full text-left border-collapse text-xs font-mono">
+                  <thead className="sticky top-0 bg-[#121821] text-[#7a8a9c] uppercase">
                     <tr>
-                      <th className="font-medium p-3 rounded-tl-lg">Ticker</th>
-                      <th className="font-medium p-3 text-right">Weight</th>
-                      <th className="font-medium p-3 text-right">Price</th>
-                      <th className="font-medium p-3 text-right rounded-tr-lg">24h Change</th>
+                      <th className="font-normal p-2 border-b border-[#1f2a36]">Ticker</th>
+                      <th className="font-normal p-2 text-right border-b border-[#1f2a36]">Weight</th>
+                      <th className="font-normal p-2 text-right border-b border-[#1f2a36]">Price</th>
+                      <th className="font-normal p-2 text-right border-b border-[#1f2a36]">24h Δ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -130,14 +150,14 @@ function OverviewWorkspace() {
                       { t: 'INFY', w: '7.4%', p: '1,421.90', c: '-1.12%', up: false, tag: 'Tech' },
                       { t: 'ITC', w: '5.1%', p: '412.30', c: '+0.10%', up: true, tag: 'Consumer' },
                     ].map(row => (
-                      <tr key={row.t} className="hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 last:border-0">
-                        <td className="p-3">
+                      <tr key={row.t} className="hover:bg-white/5 cursor-pointer transition-colors border-b border-[#1f2a36] last:border-0">
+                        <td className="p-2">
                           <div className="font-bold text-white">{row.t}</div>
-                          <div className="text-[10px] text-zinc-400 bg-white/5 border border-white/10 inline-block px-1.5 py-0.5 rounded-md mt-1">{row.tag}</div>
+                          <div className="text-[9px] text-[#7a8a9c] bg-[#1f2a36] inline-block px-1 mt-1 uppercase">{row.tag}</div>
                         </td>
-                        <td className="p-3 text-right text-zinc-300 font-medium">{row.w}</td>
-                        <td className="p-3 text-right text-zinc-200">{row.p}</td>
-                        <td className={`p-3 text-right font-medium ${row.up ? 'text-emerald-400' : 'text-rose-400'}`}>{row.c}</td>
+                        <td className="p-2 text-right text-[#e6edf3]">{row.w}</td>
+                        <td className="p-2 text-right text-[#e6edf3]">{row.p}</td>
+                        <td className={`p-2 text-right font-bold ${row.up ? 'text-[#3ddc97]' : 'text-[#ff4d6d]'}`}>{row.c}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -145,13 +165,15 @@ function OverviewWorkspace() {
               </div>
             </div>
           </Panel>
-          <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
+          <PanelResizeHandle className="h-1.5 bg-transparent relative group">
+             <div className="absolute inset-x-0 top-1/2 h-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+          </PanelResizeHandle>
           <Panel defaultSize={40}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
-              <div className="px-4 py-3 border-b border-white/10">
-                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Live Intelligence</span>
+            <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden">
+              <div className="px-3 py-2 border-b border-[#1f2a36] bg-black/40">
+                <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍LIVE INTELLIGENCE</span>
               </div>
-              <div className="flex-1 overflow-auto p-3 space-y-3">
+              <div className="flex-1 overflow-auto p-3 space-y-3 font-mono">
                  <SentimentItem time="13:04" type="NEG" score="-0.82" src="Reuters" text="Unexpected monsoon delay raises FMCG inflation fears." />
                  <SentimentItem time="12:45" type="POS" score="+0.91" src="BBG" text="Reliance unveils massive green energy capex plan in Gujarat." />
                  <SentimentItem time="11:30" type="WARN" score="-0.45" src="Local" text="Mumbai port congestion affecting engineering exports." />
@@ -160,16 +182,18 @@ function OverviewWorkspace() {
           </Panel>
         </PanelGroup>
       </Panel>
-      <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
+      <PanelResizeHandle className="w-1.5 bg-transparent relative group">
+         <div className="absolute inset-y-0 left-1/2 w-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+      </PanelResizeHandle>
       <Panel defaultSize={65}>
         <PanelGroup direction="vertical" className="gap-3">
           <Panel defaultSize={70}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col relative shadow-xl overflow-hidden">
-              <div className="absolute top-4 left-4 z-10 flex gap-2">
-                <select className="bg-black/40 backdrop-blur-md text-white text-xs px-3 py-1.5 border border-white/10 rounded-full outline-none"><option>RELIANCE (1D)</option></select>
-                <div className="flex gap-2 text-xs">
-                  <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full border border-white/5 transition-colors">Volume</button>
-                  <button className="bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30 px-3 py-1.5 rounded-full border border-indigo-500/50 transition-colors shadow-[0_0_15px_rgba(99,102,241,0.2)]">Rain Anomaly Overlay</button>
+            <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col relative shadow-2xl overflow-hidden">
+              <div className="absolute top-3 left-3 z-10 flex gap-2 font-mono">
+                <select className="bg-black/80 text-white text-[10px] px-2 py-1 border border-[#1f2a36] outline-none uppercase"><option>RELIANCE (1D)</option></select>
+                <div className="flex gap-2 text-[10px]">
+                  <button className="bg-[#1f2a36] text-white px-2 py-1 uppercase">Volume</button>
+                  <button className="bg-[#3ddc97]/10 text-[#3ddc97] border border-[#3ddc97]/30 px-2 py-1 uppercase">Rain Anomaly Overlay</button>
                 </div>
               </div>
               <div className="flex-1 w-full mt-4" style={{ minHeight: 0 }}>
@@ -177,32 +201,34 @@ function OverviewWorkspace() {
               </div>
             </div>
           </Panel>
-          <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
+          <PanelResizeHandle className="h-1.5 bg-transparent relative group">
+             <div className="absolute inset-x-0 top-1/2 h-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+          </PanelResizeHandle>
           <Panel defaultSize={30}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl">
-              <div className="px-4 py-3 border-b border-white/10">
-                <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Macro Variables</span>
+            <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden">
+              <div className="px-3 py-2 border-b border-[#1f2a36] bg-black/40">
+                <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍MACRO VARIABLES</span>
               </div>
-              <div className="flex-1 p-3 grid grid-cols-3 gap-3 overflow-auto">
-                <div className="bg-black/20 border border-white/5 p-3 rounded-xl flex flex-col justify-between">
-                  <div className="text-xs text-zinc-400 font-medium">USD/INR</div>
+              <div className="flex-1 p-3 grid grid-cols-3 gap-3 overflow-auto font-mono">
+                <div className="bg-black/40 border border-[#1f2a36] p-3 flex flex-col justify-between">
+                  <div className="text-[10px] text-[#7a8a9c] uppercase">USD/INR</div>
                   <div>
-                    <div className="text-2xl font-bold text-white">83.12 <span className="text-xs font-normal text-emerald-400 bg-emerald-500/10 px-1 rounded">-0.05</span></div>
+                    <div className="text-xl font-bold text-[#e6edf3]">83.12 <span className="text-[10px] font-normal text-[#3ddc97] bg-[#3ddc97]/10 px-1 ml-1">-0.05</span></div>
                   </div>
-                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#34d399" /></div>
+                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#3ddc97" /></div>
                 </div>
-                <div className="bg-black/20 border border-white/5 p-3 rounded-xl flex flex-col justify-between">
-                  <div className="text-xs text-zinc-400 font-medium">BRENT CRUDE</div>
+                <div className="bg-black/40 border border-[#1f2a36] p-3 flex flex-col justify-between">
+                  <div className="text-[10px] text-[#7a8a9c] uppercase">BRENT CRUDE</div>
                   <div>
-                    <div className="text-2xl font-bold text-white">$84.50 <span className="text-xs font-normal text-rose-400 bg-rose-500/10 px-1 rounded">+1.20</span></div>
+                    <div className="text-xl font-bold text-[#e6edf3]">$84.50 <span className="text-[10px] font-normal text-[#ff4d6d] bg-[#ff4d6d]/10 px-1 ml-1">+1.20</span></div>
                   </div>
-                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#fb7185" reverse /></div>
+                  <div className="h-8 mt-2 opacity-80"><Sparkline color="#ff4d6d" reverse /></div>
                 </div>
-                <div className="bg-gradient-to-br from-rose-500/20 to-orange-500/10 border border-rose-500/30 p-3 rounded-xl relative overflow-hidden flex flex-col justify-center">
-                  <AlertTriangle size={60} className="absolute -right-4 -bottom-4 text-rose-500/20" />
-                  <div className="text-xs text-rose-300 font-bold flex items-center gap-1.5 mb-2 bg-rose-500/20 w-max px-2 py-0.5 rounded-full"><AlertTriangle size={12} /> SYSTEM ALERT</div>
-                  <div className="text-sm font-semibold text-white leading-tight">Cyclone Warning: Gujarat Coastline</div>
-                  <div className="text-xs text-zinc-300 mt-2">Impact: <span className="text-white font-medium">RELIANCE, ADANIPORTS</span></div>
+                <div className="bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,122,26,0.05)_10px,rgba(255,122,26,0.05)_20px)] border border-[#ff7a1a]/30 p-3 relative overflow-hidden flex flex-col justify-center bg-[#121821]">
+                  <AlertTriangle size={60} className="absolute -right-4 -bottom-4 text-[#ff7a1a]/10" />
+                  <div className="text-[10px] text-[#ff7a1a] font-bold flex items-center gap-1.5 mb-2 bg-[#ff7a1a]/10 w-max px-2 py-0.5 border border-[#ff7a1a]/20"><AlertTriangle size={10} /> SYSTEM ALERT</div>
+                  <div className="text-xs font-semibold text-[#e6edf3] leading-tight">Cyclone Warning: Gujarat Coastline</div>
+                  <div className="text-[10px] text-[#7a8a9c] mt-2">Impact: <span className="text-white font-medium bg-[#1f2a36] px-1">RELIANCE</span> <span className="text-white font-medium bg-[#1f2a36] px-1">ADANIPORTS</span></div>
                 </div>
               </div>
             </div>
@@ -214,17 +240,17 @@ function OverviewWorkspace() {
 }
 
 function SentimentItem({time, type, score, src, text}: {time: string, type: string, score: string, src: string, text: string}) {
-  const color = type === 'POS' ? 'text-teal-400 bg-teal-400/10 border-teal-400/20' : 
-                type === 'NEG' ? 'text-red-400 bg-red-400/10 border-red-400/20' : 
-                'text-amber-400 bg-amber-400/10 border-amber-400/20';
+  const color = type === 'POS' ? 'text-[#3ddc97] bg-[#3ddc97]/10 border-[#3ddc97]/20' : 
+                type === 'NEG' ? 'text-[#ff4d6d] bg-[#ff4d6d]/10 border-[#ff4d6d]/20' : 
+                'text-[#ffb000] bg-[#ffb000]/10 border-[#ffb000]/20';
   return (
-    <div className="text-[11px] leading-relaxed border-l-2 border-zinc-700 pl-2">
+    <div className="text-[11px] leading-relaxed border-l-2 border-[#1f2a36] pl-2 font-mono">
       <div className="flex gap-2 items-center mb-0.5">
-        <span className="text-zinc-600">{time}</span>
-        <span className={`px-1 rounded border text-[9px] font-bold ${color}`}>{type} {score}</span>
-        <span className="text-zinc-500 text-[9px] uppercase">{src}</span>
+        <span className="text-[#7a8a9c] text-[10px]">{time}</span>
+        <span className={`px-1 border text-[9px] font-bold ${color}`}>{type} {score}</span>
+        <span className="text-[#7a8a9c] text-[9px] uppercase">{src}</span>
       </div>
-      <div className="text-zinc-300">{text}</div>
+      <div className="text-[#e6edf3] font-sans">{text}</div>
     </div>
   );
 }
@@ -233,42 +259,51 @@ function SentimentItem({time, type, score, src, text}: {time: string, type: stri
 // WORKSPACE 2: COPILOT
 // -----------------------------------------------------------------------------
 const initialNodes = [
-  { id: '1', type: 'input', position: { x: 250, y: 0 }, data: { label: 'Query Intent Parser' }, className: 'bg-white/10 backdrop-blur-md text-white text-xs border border-white/20 rounded-xl p-3 shadow-lg' },
-  { id: '2', position: { x: 100, y: 80 }, data: { label: 'Sentiment Agent' }, className: 'bg-emerald-500/10 backdrop-blur-md text-emerald-300 text-xs border border-emerald-500/30 rounded-xl p-3 shadow-lg' },
-  { id: '3', position: { x: 400, y: 80 }, data: { label: 'Risk / Macro Agent' }, className: 'bg-amber-500/10 backdrop-blur-md text-amber-300 text-xs border border-amber-500/30 rounded-xl p-3 shadow-lg' },
-  { id: '4', position: { x: 250, y: 160 }, data: { label: 'Ledger Validator' }, className: 'bg-indigo-500/10 backdrop-blur-md text-indigo-300 text-xs border border-indigo-500/30 rounded-xl p-3 shadow-lg' },
+  { id: '1', position: { x: 400, y: 0 }, data: { label: 'parse_intent' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '2', position: { x: 400, y: 60 }, data: { label: 'router' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '3', position: { x: 50, y: 140 }, data: { label: 'sentiment' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#ffb000] px-3 py-2 font-mono rounded-none uppercase shadow-[0_0_8px_rgba(255,176,0,0.3)]' },
+  { id: '4', position: { x: 190, y: 140 }, data: { label: 'weather' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#3ddc97] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '5', position: { x: 330, y: 140 }, data: { label: 'agri' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#3ddc97] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '6', position: { x: 470, y: 140 }, data: { label: 'macro' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#3ddc97] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '7', position: { x: 610, y: 140 }, data: { label: 'analog' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#3ddc97] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '8', position: { x: 750, y: 140 }, data: { label: 'exposure' }, className: 'bg-[#121821] text-[#7a8a9c] text-[10px] border border-[#1f2a36] border-dashed px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '9', position: { x: 400, y: 220 }, data: { label: 'join' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '10', position: { x: 400, y: 280 }, data: { label: 'quant_agent' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '11', position: { x: 400, y: 340 }, data: { label: 'synthesizer' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '12', position: { x: 250, y: 340 }, data: { label: 'red_team' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
+  { id: '13', position: { x: 550, y: 340 }, data: { label: 'validator' }, className: 'bg-[#121821] text-[#e6edf3] text-[10px] border border-[#1f2a36] px-3 py-2 font-mono rounded-none uppercase' },
 ];
+
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#34d399' } },
-  { id: 'e1-3', source: '1', target: '3', animated: true, style: { stroke: '#fbbf24' } },
-  { id: 'e2-4', source: '2', target: '4', animated: true, style: { stroke: '#818cf8' } },
-  { id: 'e3-4', source: '3', target: '4', animated: true, style: { stroke: '#818cf8' } },
+  { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#3ddc97' } },
+  { id: 'e2-3', source: '2', target: '3', animated: true, style: { stroke: '#ffb000' } },
+  { id: 'e2-4', source: '2', target: '4', animated: false, style: { stroke: '#3ddc97' } },
+  { id: 'e2-5', source: '2', target: '5', animated: false, style: { stroke: '#3ddc97' } },
+  { id: 'e2-6', source: '2', target: '6', animated: false, style: { stroke: '#3ddc97' } },
+  { id: 'e2-7', source: '2', target: '7', animated: false, style: { stroke: '#3ddc97' } },
+  { id: 'e2-8', source: '2', target: '8', animated: false, style: { stroke: '#1f2a36', strokeDasharray: '4' } },
+  { id: 'e3-9', source: '3', target: '9', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e4-9', source: '4', target: '9', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e5-9', source: '5', target: '9', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e6-9', source: '6', target: '9', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e7-9', source: '7', target: '9', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e9-10', source: '9', target: '10', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e10-11', source: '10', target: '11', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e10-12', source: '10', target: '12', animated: false, style: { stroke: '#1f2a36' } },
+  { id: 'e10-13', source: '10', target: '13', animated: false, style: { stroke: '#1f2a36' } },
 ];
 
 function CopilotWorkspace() {
   const [nodes, setNodes] = useState(initialNodes);
-  
-  useEffect(() => {
-    let step = 0;
-    const interval = setInterval(() => {
-      step = (step + 1) % 4;
-      setNodes(nds => nds.map((n, i) => ({
-        ...n,
-        className: n.className.replace(/shadow-\[.*?\]/g, 'shadow-lg') + (i === step ? ' shadow-[0_0_20px_rgba(255,255,255,0.4)] border-white/50' : '')
-      })));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <PanelGroup direction="horizontal" className="w-full h-full gap-3">
-      <Panel defaultSize={30}>
-        <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
-          <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
-            <span className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Execution Graph</span>
-            <span className="text-[10px] text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">EXPERT MODE</span>
+      <Panel defaultSize={45}>
+        <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl relative overflow-hidden">
+          <div className="px-3 py-2 border-b border-[#1f2a36] flex items-center justify-between bg-black/40">
+            <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍AGENT GRAPH · run_mock_8f2a</span>
           </div>
-          <div className="flex-1 relative bg-black/20">
+          <div className="flex-1 relative bg-transparent">
             <ReactFlow 
               nodes={nodes} 
               edges={initialEdges} 
@@ -276,57 +311,85 @@ function CopilotWorkspace() {
               proOptions={{ hideAttribution: true }}
               colorMode="dark"
             >
-              <Background color="rgba(255,255,255,0.05)" gap={16} size={1} />
+              <Background color="rgba(255,255,255,0.02)" gap={16} size={1} />
             </ReactFlow>
           </div>
-          <div className="h-40 border-t border-white/10 bg-black/40 p-4 overflow-auto font-mono text-xs text-zinc-400 space-y-2">
-            <div><span className="text-emerald-400 font-bold">[Sentiment]</span> Extracted FinBERT scores for RELIANCE (0.85)</div>
-            <div><span className="text-amber-400 font-bold">[Macro]</span> Correlating crude oil spikes with historical margins...</div>
-            <div className="text-indigo-400 font-bold flex items-center gap-2 mt-2"><Loader2 size={12} className="animate-spin" /> [Validator] Verifying ledger entries...</div>
+          <div className="h-40 border-t border-[#1f2a36] bg-black/60 p-3 overflow-auto font-mono text-[10px] text-[#7a8a9c] space-y-1.5">
+             <div className="flex justify-between items-center pb-2 border-b border-[#1f2a36] mb-2">
+               <span className="text-[#e6edf3] uppercase font-bold">Intent Decomposition</span>
+             </div>
+             <div><span className="text-zinc-500 w-24 inline-block">Intent</span> <span className="text-[#3ddc97]">event_impact</span></div>
+             <div><span className="text-zinc-500 w-24 inline-block">Event Type</span> <span className="text-[#e6edf3]">cyclone</span></div>
+             <div><span className="text-zinc-500 w-24 inline-block">Tickers</span> <span className="bg-[#1f2a36] px-1 text-white">RELIANCE.NS</span> <span className="bg-[#1f2a36] px-1 text-white">ONGC.NS</span></div>
+             <div><span className="text-zinc-500 w-24 inline-block">Needs Tools</span> <span className="text-[#ffb000]">sentiment</span> <span className="text-[#7a8a9c] line-through">exposure</span></div>
           </div>
         </div>
       </Panel>
-      <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
-      <Panel defaultSize={70}>
+      <PanelResizeHandle className="w-1.5 bg-transparent relative group">
+         <div className="absolute inset-y-0 left-1/2 w-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+      </PanelResizeHandle>
+      <Panel defaultSize={55}>
         <div className="h-full flex flex-col gap-3">
-          <div className="flex-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
-            <div className="px-4 py-3 border-b border-white/10 flex justify-between items-center bg-black/20">
-              <div className="font-bold text-white font-display uppercase tracking-widest text-[11px]">Copilot Response</div>
+          <div className="flex-1 bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden relative">
+            <div className="px-3 py-2 border-b border-[#1f2a36] flex justify-between items-center bg-black/40">
+              <div className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍FINAL ANSWER</div>
               <div className="flex gap-2 items-center">
-                <span className="text-xs text-zinc-400">Confidence:</span>
-                <span className="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded-full">88%</span>
+                <span className="text-[10px] text-zinc-500 uppercase font-mono">Confidence</span>
+                <span className="text-[10px] text-[#121821] bg-[#3ddc97] font-bold px-2 py-0.5 uppercase">HIGH</span>
               </div>
             </div>
-            <div className="p-6 overflow-auto text-[15px] leading-relaxed text-zinc-200">
-              <p className="mb-6">
-                Based on the active Cyclone Warning in Gujarat and rising Brent Crude prices, <span className="bg-white/10 text-white px-1.5 py-0.5 rounded cursor-pointer border-b border-white/20 hover:bg-white/20 transition-colors">RELIANCE</span> faces a short-term margin compression risk of <span className="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded cursor-pointer border-b border-emerald-500/50 hover:bg-emerald-500/30 transition-colors font-medium">4.2%</span> <span className="text-xs text-zinc-500">(Ref: Ledger #94A)</span>.
+            <div className="p-5 overflow-auto text-[14px] leading-relaxed text-[#e6edf3] font-sans">
+              <p className="mb-5 border-l-2 border-[#ffb000] pl-3">
+                Based on the active Cyclone Warning in Gujarat and rising Brent Crude prices, <span className="bg-[#1f2a36] font-mono text-white px-1">RELIANCE.NS</span> faces a short-term margin compression risk of <span className="text-[#ff4d6d] font-mono font-medium">4.2%</span> <span className="text-[10px] text-[#ffb000] bg-[#ffb000]/10 px-1 ml-1 border border-[#ffb000]/20">[ev_ledger_94a]</span>.
               </p>
-              <div className="bg-gradient-to-r from-rose-500/10 to-transparent border-l-2 border-rose-500 p-4 mb-6 rounded-r-xl">
-                <div className="text-rose-400 text-xs font-bold mb-2 flex items-center gap-1.5"><ShieldCheck size={14}/> RED TEAM COUNTER-ARGUMENT</div>
-                <p className="text-sm text-zinc-300">The historical analog from 2019 suggests that downstream refining margins often expand post-cyclone due to regional supply constraints, potentially offsetting upstream disruptions.</p>
+              
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="bg-black/40 border border-[#1f2a36] p-3">
+                  <div className="text-[10px] font-mono text-zinc-500 mb-1 uppercase">Validator Badge</div>
+                  <div className="text-[#3ddc97] font-mono text-xs flex items-center gap-2"><CheckCircle2 size={12}/> Numbers Ledger 14/14 ✓</div>
+                </div>
+                <div className="bg-[#ff4d6d]/5 border border-[#ff4d6d]/20 p-3">
+                  <div className="text-[10px] font-mono text-[#ff4d6d] mb-1 flex items-center gap-1 uppercase"><ShieldCheck size={12}/> Red Team</div>
+                  <div className="text-[#e6edf3] text-xs">Historical analog from 2019 suggests downstream refining margins may expand post-cyclone.</div>
+                </div>
               </div>
-              <h3 className="font-bold mb-3 text-white font-display uppercase tracking-widest text-[11px]">Recommended Action</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-black/20 border border-white/10 p-4 rounded-xl shadow-inner">
-                  <div className="text-xs text-zinc-400 mb-1">INSTRUMENT</div>
-                  <div className="font-bold text-lg text-white">RELIANCE 2800 PE</div>
-                  <div className="text-sm text-zinc-400 mt-1">Size: 2% of portfolio</div>
-                </div>
-                <div className="bg-black/20 border border-white/10 p-4 rounded-xl flex flex-col justify-center gap-3 shadow-inner">
-                  <button className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(79,70,229,0.4)]"><CheckCircle2 size={16}/> APPROVE HEDGE</button>
-                  <button className="bg-white/5 hover:bg-white/10 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">Reject</button>
-                </div>
+
+              <h3 className="font-bold mb-3 text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍Hedge Proposal</h3>
+              <div className="w-full overflow-hidden border border-[#1f2a36]">
+                <table className="w-full text-left border-collapse text-xs font-mono">
+                   <thead className="bg-[#1f2a36]/50 text-[#7a8a9c] text-[10px] uppercase">
+                     <tr><th className="p-2 font-normal">Instrument</th><th className="p-2 font-normal">Side</th><th className="p-2 font-normal">Qty</th><th className="p-2 font-normal text-right">Action</th></tr>
+                   </thead>
+                   <tbody>
+                     <tr className="border-b border-[#1f2a36]">
+                       <td className="p-2 text-white">RELIANCE 2800 PE</td>
+                       <td className="p-2 text-[#3ddc97]">BUY</td>
+                       <td className="p-2">1,200</td>
+                       <td className="p-2 text-right">
+                         <button className="bg-[#ffb000] text-[#121821] hover:bg-[#ffb000]/90 px-3 py-1 text-[10px] font-bold uppercase transition-colors">Approve → Paper</button>
+                       </td>
+                     </tr>
+                   </tbody>
+                </table>
               </div>
             </div>
           </div>
-          <div className="h-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-2 flex items-center gap-3 shadow-xl">
-             <div className="bg-indigo-500 text-white p-2 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"><Play size={16} className="ml-0.5" /></div>
+          <div className="bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] px-3 py-2 flex items-center gap-3 shadow-2xl relative">
+             <div className="text-[#ffb000] animate-pulse">▍</div>
              <input 
                type="text" 
-               className="flex-1 bg-transparent border-none outline-none text-base placeholder-zinc-500 text-white" 
-               placeholder="Ask Copilot..."
+               className="flex-1 bg-transparent border-none outline-none text-[13px] placeholder-[#7a8a9c] text-[#e6edf3] font-mono" 
+               placeholder="Enter query..."
                defaultValue="Analyze RELIANCE exposure to the active Gujarat cyclone."
              />
+             <div className="flex gap-2 items-center border-l border-[#1f2a36] pl-3">
+               <div className="flex flex-col items-end">
+                  <span className="text-[9px] font-mono text-[#7a8a9c] uppercase">Cloud 2 · Local 7 · Saved 5</span>
+                  <div className="flex gap-0.5 mt-0.5">
+                    <div className="h-1.5 w-4 bg-[#3ddc97]"></div><div className="h-1.5 w-4 bg-[#3ddc97]"></div><div className="h-1.5 w-4 bg-[#ffb000]"></div><div className="h-1.5 w-4 bg-[#1f2a36]"></div>
+                  </div>
+               </div>
+             </div>
           </div>
         </div>
       </Panel>
@@ -335,7 +398,7 @@ function CopilotWorkspace() {
 }
 
 // -----------------------------------------------------------------------------
-// WORKSPACE 3: RISK
+// WORKSPACE 3: SCENARIOS & RISK
 // -----------------------------------------------------------------------------
 function RiskWorkspace() {
   const dummyData = [
@@ -347,58 +410,124 @@ function RiskWorkspace() {
   ];
 
   return (
-    <PanelGroup direction="vertical" className="w-full h-full gap-3">
-      <Panel defaultSize={50}>
-        <PanelGroup direction="horizontal" className="gap-3">
-          <Panel defaultSize={30}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col p-5 shadow-xl">
-              <div className="font-semibold text-white mb-6 text-base">Portfolio Risk (1D)</div>
-              <div className="space-y-6">
-                <div>
-                  <div className="text-xs text-zinc-400 mb-1">Value at Risk (95%)</div>
-                  <div className="text-3xl text-rose-400 font-bold tracking-tight">-₹3.45L</div>
-                  <div className="text-xs text-zinc-500 mt-2">2.3% of portfolio</div>
-                </div>
-                <div>
-                  <div className="text-xs text-zinc-400 mb-1">Beta vs NIFTY 50</div>
-                  <div className="text-2xl text-white font-semibold">1.12</div>
-                </div>
-                <div>
-                  <div className="text-xs text-zinc-400 mb-1">Annualized Volatility</div>
-                  <div className="text-2xl text-white font-semibold">14.5%</div>
-                </div>
-              </div>
-            </div>
-          </Panel>
-          <PanelResizeHandle className="w-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
-          <Panel defaultSize={70}>
-            <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col p-4 shadow-xl">
-              <div className="font-semibold text-white mb-4 pl-2">Monte Carlo P&L Simulation (5 Days)</div>
-              <div className="flex-1">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={dummyData} margin={{ top: 10, right: 30, left: 20, bottom: 0 }}>
-                    <XAxis dataKey="name" tick={{fontSize: 12, fill: '#999'}} stroke="#333" axisLine={false} tickLine={false} />
-                    <YAxis tick={{fontSize: 12, fill: '#999'}} stroke="#333" axisLine={false} tickLine={false} />
-                    <Tooltip contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', backdropFilter: 'blur(10px)'}} itemStyle={{color: '#fff'}} />
-                    <Area type="monotone" dataKey="p95" stroke="none" fill="#6366f1" fillOpacity={0.1} />
-                    <Area type="monotone" dataKey="p5" stroke="none" fill="#f43f5e" fillOpacity={0.1} />
-                    <Area type="monotone" dataKey="p75" stroke="none" fill="#6366f1" fillOpacity={0.2} />
-                    <Area type="monotone" dataKey="p25" stroke="none" fill="#f43f5e" fillOpacity={0.2} />
-                    <Line type="monotone" dataKey="p50" stroke="#fff" strokeWidth={3} dot={false} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </Panel>
-        </PanelGroup>
+    <PanelGroup direction="horizontal" className="w-full h-full gap-3">
+      <Panel defaultSize={30}>
+        <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden font-mono">
+          <div className="px-3 py-2 border-b border-[#1f2a36] bg-black/40">
+            <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍WHAT-IF SLIDERS</span>
+          </div>
+          <div className="flex-1 p-4 space-y-5 overflow-auto">
+             <div>
+               <div className="flex justify-between text-[10px] text-[#7a8a9c] uppercase mb-2"><span>Crude Oil %</span> <span className="text-[#e6edf3]">+10.0%</span></div>
+               <input type="range" className="w-full accent-[#ffb000]" min="-30" max="30" defaultValue="10" />
+             </div>
+             <div>
+               <div className="flex justify-between text-[10px] text-[#7a8a9c] uppercase mb-2"><span>USD/INR %</span> <span className="text-[#e6edf3]">+2.0%</span></div>
+               <input type="range" className="w-full accent-[#ffb000]" min="-5" max="5" defaultValue="2" />
+             </div>
+             <div>
+               <div className="flex justify-between text-[10px] text-[#7a8a9c] uppercase mb-2"><span>NIFTY %</span> <span className="text-[#e6edf3]">-3.0%</span></div>
+               <input type="range" className="w-full accent-[#ffb000]" min="-15" max="15" defaultValue="-3" />
+             </div>
+             <div>
+               <div className="flex justify-between text-[10px] text-[#7a8a9c] uppercase mb-2"><span>Monsoon Rain %</span> <span className="text-[#ff4d6d]">-20.0%</span></div>
+               <input type="range" className="w-full accent-[#ff4d6d]" min="-40" max="20" defaultValue="-20" />
+             </div>
+             
+             <div className="mt-8 p-3 border border-[#1f2a36] bg-black/20">
+               <div className="text-[10px] text-[#7a8a9c] uppercase mb-1">Simulated P&L</div>
+               <div className="text-2xl text-[#ff4d6d] font-bold">-₹18,450.00</div>
+               <div className="text-[10px] text-[#ff4d6d]">-1.23%</div>
+               
+               <div className="mt-3 space-y-1">
+                 <div className="flex justify-between text-[10px]"><span className="text-[#e6edf3]">RELIANCE.NS</span> <span className="text-[#ff4d6d]">-9200</span></div>
+                 <div className="flex justify-between text-[10px]"><span className="text-[#e6edf3]">ONGC.NS</span> <span className="text-[#3ddc97]">+6100</span></div>
+                 <div className="flex justify-between text-[10px]"><span className="text-[#e6edf3]">ITC.NS</span> <span className="text-[#ff4d6d]">-1500</span></div>
+               </div>
+             </div>
+          </div>
+        </div>
       </Panel>
-      <PanelResizeHandle className="h-1.5 rounded-full bg-white/5 hover:bg-indigo-500/50 transition-colors" />
-      <Panel defaultSize={50}>
-        <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex flex-col shadow-xl">
-           <div className="font-semibold text-white mb-4">Correlation Heatmap</div>
-           <div className="flex-1 flex items-center justify-center text-zinc-500 border border-white/5 rounded-xl bg-black/20">
-             [ Visualization Placeholder ]
+      <PanelResizeHandle className="w-1.5 bg-transparent relative group">
+         <div className="absolute inset-y-0 left-1/2 w-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+      </PanelResizeHandle>
+      <Panel defaultSize={40}>
+        <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden font-mono">
+           <div className="px-3 py-2 border-b border-[#1f2a36] bg-black/40 flex justify-between items-center">
+             <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍SECTOR HEATMAP</span>
            </div>
+           <div className="flex-1 flex flex-col p-4">
+             <div className="grid grid-cols-6 text-[9px] text-[#7a8a9c] uppercase mb-2 text-center">
+               <div className="text-left">Sector</div><div>Weather</div><div>Agri</div><div>Crude</div><div>Rates</div><div>USD/INR</div>
+             </div>
+             <div className="space-y-1 flex-1">
+               <div className="grid grid-cols-6 h-8 gap-1">
+                 <div className="text-[10px] text-[#e6edf3] flex items-center">Energy (38%)</div>
+                 <div className="bg-[#3ddc97]/60 flex items-center justify-center text-white text-[9px]">0.6</div>
+                 <div className="bg-[#3ddc97]/10 flex items-center justify-center text-white text-[9px]">0.1</div>
+                 <div className="bg-[#3ddc97]/80 flex items-center justify-center text-white text-[9px]">0.8</div>
+                 <div className="bg-[#ff4d6d]/20 flex items-center justify-center text-white text-[9px]">-0.2</div>
+                 <div className="bg-[#3ddc97]/30 flex items-center justify-center text-white text-[9px]">0.3</div>
+               </div>
+               <div className="grid grid-cols-6 h-8 gap-1">
+                 <div className="text-[10px] text-[#e6edf3] flex items-center">FMCG (27%)</div>
+                 <div className="bg-[#3ddc97]/30 flex items-center justify-center text-white text-[9px]">0.3</div>
+                 <div className="bg-[#3ddc97]/50 flex items-center justify-center text-white text-[9px]">0.5</div>
+                 <div className="bg-[#ff4d6d]/20 flex items-center justify-center text-white text-[9px]">-0.2</div>
+                 <div className="bg-[#ff4d6d]/10 flex items-center justify-center text-white text-[9px]">-0.1</div>
+                 <div className="bg-[#ff4d6d]/10 flex items-center justify-center text-white text-[9px]">-0.1</div>
+               </div>
+               <div className="grid grid-cols-6 h-8 gap-1">
+                 <div className="text-[10px] text-[#e6edf3] flex items-center">Agri (15%)</div>
+                 <div className="bg-[#3ddc97]/70 flex items-center justify-center text-white text-[9px]">0.7</div>
+                 <div className="bg-[#3ddc97]/90 flex items-center justify-center text-white text-[9px]">0.9</div>
+                 <div className="bg-[#ff4d6d]/10 flex items-center justify-center text-white text-[9px]">-0.1</div>
+                 <div className="bg-black/20 flex items-center justify-center text-[#7a8a9c] text-[9px]">0.0</div>
+                 <div className="bg-[#3ddc97]/10 flex items-center justify-center text-white text-[9px]">0.1</div>
+               </div>
+               <div className="grid grid-cols-6 h-8 gap-1">
+                 <div className="text-[10px] text-[#e6edf3] flex items-center">Banks (20%)</div>
+                 <div className="bg-black/20 flex items-center justify-center text-[#7a8a9c] text-[9px]">0.0</div>
+                 <div className="bg-[#3ddc97]/10 flex items-center justify-center text-white text-[9px]">0.1</div>
+                 <div className="bg-[#ff4d6d]/10 flex items-center justify-center text-white text-[9px]">-0.1</div>
+                 <div className="bg-[#3ddc97]/60 flex items-center justify-center text-white text-[9px]">0.6</div>
+                 <div className="bg-[#ff4d6d]/20 flex items-center justify-center text-white text-[9px]">-0.2</div>
+               </div>
+             </div>
+           </div>
+        </div>
+      </Panel>
+      <PanelResizeHandle className="w-1.5 bg-transparent relative group">
+         <div className="absolute inset-y-0 left-1/2 w-[1px] bg-[#1f2a36] group-hover:bg-[#ffb000] transition-colors" />
+      </PanelResizeHandle>
+      <Panel defaultSize={30}>
+        <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden font-mono">
+          <div className="px-3 py-2 border-b border-[#1f2a36] bg-black/40">
+            <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍MONTE CARLO P&L</span>
+          </div>
+          <div className="flex-1 p-4 flex flex-col">
+            <div className="flex justify-between items-end mb-4">
+               <div>
+                  <div className="text-[10px] text-[#7a8a9c] uppercase mb-1">Value at Risk (95%)</div>
+                  <div className="text-2xl text-[#ff4d6d] font-bold tracking-tight">-₹3.45L</div>
+               </div>
+               <div className="text-[10px] text-[#7a8a9c]">2.3% of portfolio</div>
+            </div>
+            <div className="flex-1 min-h-[150px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={dummyData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                  <XAxis dataKey="name" tick={{fontSize: 9, fill: '#7a8a9c', fontFamily: 'monospace'}} stroke="#1f2a36" axisLine={false} tickLine={false} />
+                  <YAxis tick={{fontSize: 9, fill: '#7a8a9c', fontFamily: 'monospace'}} stroke="#1f2a36" axisLine={false} tickLine={false} />
+                  <Tooltip contentStyle={{backgroundColor: '#0b0f14', border: '1px solid #1f2a36', borderRadius: '0px', fontFamily: 'monospace', fontSize: '10px'}} itemStyle={{color: '#e6edf3'}} />
+                  <Area type="step" dataKey="p95" stroke="none" fill="#ffb000" fillOpacity={0.1} />
+                  <Area type="step" dataKey="p5" stroke="none" fill="#ff4d6d" fillOpacity={0.1} />
+                  <Area type="step" dataKey="p75" stroke="none" fill="#ffb000" fillOpacity={0.2} />
+                  <Area type="step" dataKey="p25" stroke="none" fill="#ff4d6d" fillOpacity={0.2} />
+                  <Line type="step" dataKey="p50" stroke="#e6edf3" strokeWidth={2} dot={false} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
       </Panel>
     </PanelGroup>
@@ -410,35 +539,35 @@ function RiskWorkspace() {
 // -----------------------------------------------------------------------------
 function AlertsWorkspace() {
   return (
-    <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col shadow-xl overflow-hidden">
-       <div className="px-5 py-4 bg-black/20 border-b border-white/10">
-         <span className="font-semibold text-white text-lg">System Alerts & Monitoring</span>
+    <div className="h-full bg-[#121821]/90 backdrop-blur-md border border-[#1f2a36] flex flex-col shadow-2xl overflow-hidden font-mono">
+       <div className="px-3 py-2 bg-black/40 border-b border-[#1f2a36]">
+         <span className="font-bold text-[#e6edf3] font-display uppercase tracking-widest text-[10px]">▍SYSTEM ALERTS & MONITORING</span>
        </div>
-       <div className="flex-1 overflow-auto p-2">
-         <table className="w-full text-left border-collapse">
-            <thead className="text-zinc-400 text-xs">
+       <div className="flex-1 overflow-auto p-3">
+         <table className="w-full text-left border-collapse text-xs">
+            <thead className="text-[#7a8a9c] uppercase bg-[#1f2a36]/50">
               <tr>
-                <th className="p-4 font-medium">Time</th>
-                <th className="p-4 font-medium">Severity</th>
-                <th className="p-4 font-medium">Asset</th>
-                <th className="p-4 font-medium">Trigger</th>
-                <th className="p-4 font-medium text-right">Action</th>
+                <th className="p-3 font-normal">Time</th>
+                <th className="p-3 font-normal">Severity</th>
+                <th className="p-3 font-normal">Asset</th>
+                <th className="p-3 font-normal">Trigger</th>
+                <th className="p-3 font-normal text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="text-sm">
-              <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                <td className="p-4 text-zinc-400">12:30 PM</td>
-                <td className="p-4"><span className="bg-rose-500/10 text-rose-400 px-2.5 py-1 rounded-full text-xs font-semibold border border-rose-500/20">HIGH</span></td>
-                <td className="p-4 text-white font-medium">RELIANCE</td>
-                <td className="p-4 text-zinc-300">Cyclone warning mapped to Gujarat refinery assets. Margin risk detected.</td>
-                <td className="p-4 text-right"><button className="text-xs bg-white/10 text-white px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors font-medium">Acknowledge</button></td>
+            <tbody>
+              <tr className="border-b border-[#1f2a36] hover:bg-white/5 transition-colors">
+                <td className="p-3 text-[#7a8a9c]">12:30 PM</td>
+                <td className="p-3"><span className="bg-[#ff4d6d]/10 text-[#ff4d6d] px-2 py-0.5 border border-[#ff4d6d]/20 uppercase">High</span></td>
+                <td className="p-3 text-[#e6edf3] font-bold">RELIANCE</td>
+                <td className="p-3 text-[#e6edf3]">Cyclone warning mapped to Gujarat refinery assets. Margin risk detected.</td>
+                <td className="p-3 text-right"><button className="text-[10px] uppercase bg-[#1f2a36] text-white px-3 py-1.5 hover:bg-[#1f2a36]/80 transition-colors">Acknowledge</button></td>
               </tr>
-              <tr className="hover:bg-white/5 transition-colors">
-                <td className="p-4 text-zinc-400">11:15 AM</td>
-                <td className="p-4"><span className="bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-full text-xs font-semibold border border-amber-500/20">MED</span></td>
-                <td className="p-4 text-white font-medium">HDFCBANK</td>
-                <td className="p-4 text-zinc-300">Volume breakout > 3x 20DMA detected on options chain.</td>
-                <td className="p-4 text-right text-zinc-500 font-medium">Dismissed</td>
+              <tr className="hover:bg-white/5 transition-colors border-b border-[#1f2a36]">
+                <td className="p-3 text-[#7a8a9c]">11:15 AM</td>
+                <td className="p-3"><span className="bg-[#ffb000]/10 text-[#ffb000] px-2 py-0.5 border border-[#ffb000]/20 uppercase">Med</span></td>
+                <td className="p-3 text-[#e6edf3] font-bold">HDFCBANK</td>
+                <td className="p-3 text-[#e6edf3]">Volume breakout > 3x 20DMA detected on options chain.</td>
+                <td className="p-3 text-right text-[#7a8a9c]">Dismissed</td>
               </tr>
             </tbody>
          </table>
