@@ -16,14 +16,31 @@ export default function PetWindow() {
       });
     }
 
-    // Simulate random mock alerts for the Pet (since backend is disabled)
-    const mockInterval = setInterval(() => {
-      // 10% chance every 10 seconds to show an alert
-      if (Math.random() > 0.8 && typeof window !== 'undefined') {
+    // Simulate mock alerts for the Pet (since backend is disabled)
+    // Trigger one immediately after 2 seconds for demo purposes
+    const initialDemo = setTimeout(() => {
+      if (typeof window !== 'undefined') {
         setState('pointing');
         setAlertInfo({ 
           title: 'Macro Alert: Rate Hike', 
           reason: 'Unexpected rate hike discussion spotted in news.' 
+        });
+        if (window.petApi) window.petApi.show();
+        
+        setTimeout(() => {
+          setState('idle');
+          setAlertInfo(null);
+        }, 8000);
+      }
+    }, 2000);
+
+    const mockInterval = setInterval(() => {
+      // 50% chance every 15 seconds to show an alert
+      if (Math.random() > 0.5 && typeof window !== 'undefined') {
+        setState('pointing');
+        setAlertInfo({ 
+          title: 'Volatility Spike', 
+          reason: 'Options chain detects unusual put buying in IT sector.' 
         });
         if (window.petApi) window.petApi.show();
         
@@ -33,9 +50,12 @@ export default function PetWindow() {
           setAlertInfo(null);
         }, 8000);
       }
-    }, 10000);
+    }, 15000);
 
-    return () => clearInterval(mockInterval);
+    return () => {
+      clearTimeout(initialDemo);
+      clearInterval(mockInterval);
+    };
   }, []);
 
   useEffect(() => {
@@ -56,6 +76,24 @@ export default function PetWindow() {
       onMouseLeave={() => setHovered(false)}
       style={{ WebkitAppRegion: hovered ? 'drag' : 'no-drag' } as any}
     >
+      <AnimatePresence>
+        {hovered && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-4 right-4 bg-zinc-800 text-zinc-400 hover:text-white hover:bg-red-500 rounded-full p-1.5 shadow-lg z-50 cursor-pointer"
+            style={{ WebkitAppRegion: 'no-drag' } as any}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (window.petApi) window.petApi.hide();
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {state === 'pointing' && alertInfo && (
           <motion.div 

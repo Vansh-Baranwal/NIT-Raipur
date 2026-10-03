@@ -46,6 +46,7 @@
   "build": {
     "appId": "com.utsava.terminal",
     "productName": "Utsava Terminal",
+    "electronVersion": "29.4.6",
     "directories": {
       "output": "dist"
     },
